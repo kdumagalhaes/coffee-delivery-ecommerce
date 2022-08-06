@@ -1,4 +1,4 @@
-import { Container, Location } from './styles'
+import { Container, Location, Wrapper } from './styles'
 
 // assets
 import Logo from '../../assets/logo.svg'
@@ -10,16 +10,16 @@ import { Cart } from '../Cart/Cart'
 export function Header() {
   return (
     <Container>
-      <a href="/">
+      <a href="/" className='logo'>
         <img src={Logo} alt="Coffee Delivery logo" />
       </a>
-      <div className='wrapper'>
+      <Wrapper>
       <Location>
         <MapPin size={22} weight="fill" color={'#8047F8'} />
-        <p>Teresópolis, RJ</p>
+        <p>Rio de Janeiro, RJ</p>
       </Location>
       <Cart />
-      </div>
-    </Container>
+      </Wrapper>
+          </Container>
   )
 }

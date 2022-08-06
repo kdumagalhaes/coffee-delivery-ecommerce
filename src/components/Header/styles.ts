@@ -9,9 +9,23 @@ export const Container = styled.header`
   justify-content: space-between;
   align-items: center;
 
-  .wrapper {
-    display: flex;
-    gap: 0.75rem;
+  .logo {
+    flex-grow: 1
   }
 `
-export const Location = styled.span``
+
+export const Wrapper = styled.div`
+    display: flex;
+    gap: 0.75rem;
+`
+
+export const Location = styled.span`
+    background-color: ${props => props.theme['purple-light']};
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: ${props => props.theme['purple-dark']};
+    border-radius: 6px;
+`
