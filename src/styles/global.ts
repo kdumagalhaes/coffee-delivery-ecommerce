@@ -10,7 +10,7 @@ export const GlobalStyles = createGlobalStyle`
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: ${(props) => props.theme['background']};
+    background-color: ${(props) => props.theme.background};
     color: ${(props) => props.theme['base-text']};
     -webkit-font-smoothing: antialiased;
 }
