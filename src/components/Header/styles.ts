@@ -8,24 +8,20 @@ export const Container = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  .logo {
-    flex-grow: 1
-  }
 `
 
 export const Wrapper = styled.div`
-    display: flex;
-    gap: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
 `
 
 export const Location = styled.span`
-    background-color: ${props => props.theme['purple-light']};
-    padding: 0.5rem;
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    color: ${props => props.theme['purple-dark']};
-    border-radius: 6px;
+  background-color: ${(props) => props.theme['purple-light']};
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: ${(props) => props.theme['purple-dark']};
+  border-radius: 6px;
 `

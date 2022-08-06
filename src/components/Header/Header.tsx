@@ -10,16 +10,16 @@ import { Cart } from '../Cart/Cart'
 export function Header() {
   return (
     <Container>
-      <a href="/" className='logo'>
+      <a href="/" className="logo">
         <img src={Logo} alt="Coffee Delivery logo" />
       </a>
       <Wrapper>
-      <Location>
-        <MapPin size={22} weight="fill" color={'#8047F8'} />
-        <p>Rio de Janeiro, RJ</p>
-      </Location>
-      <Cart />
+        <Location>
+          <MapPin size={22} weight="fill" color={'#8047F8'} />
+          <p>Porto Alegre, RS</p>
+        </Location>
+        <Cart />
       </Wrapper>
-          </Container>
+    </Container>
   )
 }
