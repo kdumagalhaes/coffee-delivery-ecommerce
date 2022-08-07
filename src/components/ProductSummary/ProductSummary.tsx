@@ -22,7 +22,7 @@ export function ProductSummary({
   types,
   description,
   price,
-  id
+  id,
 }: ProductSummaryProps) {
   const convertedPrice = formatPrice(price)
 
@@ -31,9 +31,13 @@ export function ProductSummary({
       <ContentContainer>
         <img className="image" src={image} alt={name} />
         <div className="types">
-        {types.map((type) => {
-          return <span key={id} className="type">{type}</span>
-        })}
+          {types.map((type) => {
+            return (
+              <span key={id} className="type">
+                {type}
+              </span>
+            )
+          })}
         </div>
         <strong className="name">{name}</strong>
         <p className="description">{description}</p>
