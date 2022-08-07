@@ -109,3 +109,50 @@ export const SelectedProduct = styled.li`
     gap: 0.5rem;
   }
 `
+export const BillingSummary = styled.div`
+  .billing-title {
+    font-size: 0.9rem;
+    color: ${(props) => props.theme['base-text']};
+  }
+
+  .billing-value {
+    font-size: 1rem;
+  }
+
+  .billing > li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .billing-total-title,
+  .billing-total-value {
+    font-weight: 700;
+    color: ${(props) => props.theme['base-subtitle']};
+    font-size: 1.25rem;
+  }
+`
+
+export const PlaceOrderButton = styled.a`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  padding: 0.9rem 0;
+  color: ${(props) => props.theme.white};
+  text-transform: uppercase;
+  background-color: ${(props) => props.theme.yellow};
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: ${(props) => props.theme['yellow-dark']};
+  }
+`

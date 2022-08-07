@@ -6,6 +6,8 @@ import {
   SubTitle,
   RemoveButton,
   SelectedProduct,
+  BillingSummary,
+  PlaceOrderButton,
 } from './styles'
 
 // assets
@@ -74,6 +76,31 @@ export function Checkout() {
               <strong className="price">R$ 9,90</strong>
             </SelectedProduct>
           </ul>
+          <BillingSummary>
+            <ul className="billing">
+              <li>
+                <p className="billing-items-title billing-title">
+                  Total de itens
+                </p>
+                <span className="billing-items-value billing-value">
+                  R$ 29,70
+                </span>
+              </li>
+              <li>
+                <p className="billing-delivery-title billing-title">Entrega</p>
+                <span className="billing-delivery-value billing-value">
+                  R$ 3,50
+                </span>
+              </li>
+              <li>
+                <p className="billing-total-title">Total</p>
+                <span className="billing-total-value">R$ 33,20</span>
+              </li>
+            </ul>
+            <PlaceOrderButton href="/order-placed">
+              Confirmar pedido
+            </PlaceOrderButton>
+          </BillingSummary>
         </OrderSummary>
       </div>
     </Container>
