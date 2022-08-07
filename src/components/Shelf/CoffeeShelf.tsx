@@ -14,7 +14,7 @@ export function Shelf() {
             <ProductSummary
               id={product.id}
               name={product.name}
-              type={product.type}
+              types={product.types}
               description={product.description}
               image={product.image}
               inventory={product.inventory}

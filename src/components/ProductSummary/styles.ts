@@ -9,21 +9,27 @@ export const Container = styled.div`
   border-bottom-left-radius: 36px;
   border-bottom-right-radius: 6px;
   position: relative;
-  padding: 0 1.5rem;
+  padding: 0 1.2rem;
 
   .image {
     width: 120px;
     height: 120px;
-    background-color: coral;
     position: absolute;
-    top: -30px;
+    top: -22px;
   }
 `
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 110px;
+
+  .types {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
 
   .type {
     background-color: ${(props) => props.theme['yellow-light']};
@@ -31,9 +37,9 @@ export const ContentContainer = styled.div`
     padding: 0.25rem 0.5rem;
     border-radius: 100px;
     text-transform: uppercase;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     font-weight: 700;
-    margin-bottom: 0.8rem;
+    gap: 0.9rem;
   }
 
   .name {
@@ -44,6 +50,7 @@ export const ContentContainer = styled.div`
   }
 
   .description {
+    width: 100%;
     font-size: 0.88rem;
     color: ${(props) => props.theme['base-label']};
     line-height: 130%;
@@ -76,11 +83,11 @@ export const Pricing = styled.div`
 export const AddToCartButton = styled.button`
   border: none;
   border-radius: 6px;
-  background-color: ${props => props.theme['purple-dark']};
+  background-color: ${(props) => props.theme['purple-dark']};
   padding: 0.7rem;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: ${props => props.theme['purple']};
+    background-color: ${(props) => props.theme.purple};
   }
-` 
+`
