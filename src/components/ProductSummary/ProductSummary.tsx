@@ -3,12 +3,16 @@ import {
   PricingAndAddToCart,
   ContentContainer,
   Pricing,
+  AddToCartButton,
 } from './styles'
 
 // utils
 import { Products } from '../../utils/products'
 import { formatPrice } from '../../utils/format'
 import { QuantityStepper } from '../QuantityStepper/QuantityStepper'
+
+//assets
+import {ShoppingCartSimple} from "phosphor-react"
 
 interface ProductSummaryProps extends Products {}
 
@@ -35,6 +39,9 @@ export function ProductSummary({
           <span className="price">{convertedPrice}</span>
         </Pricing>
           <QuantityStepper />
+          <AddToCartButton>
+            <ShoppingCartSimple size={22} weight="fill" color='#F3F2F2' />
+          </AddToCartButton>
       </PricingAndAddToCart>
     </Container>
   )

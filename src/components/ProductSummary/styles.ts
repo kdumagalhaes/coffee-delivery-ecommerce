@@ -25,11 +25,6 @@ export const ContentContainer = styled.div`
   align-items: center;
   margin-top: 100px;
 
-  .type,
-  .name {
-    margin-bottom: 1rem;
-  }
-
   .type {
     background-color: ${(props) => props.theme['yellow-light']};
     color: ${(props) => props.theme['yellow-dark']};
@@ -38,12 +33,14 @@ export const ContentContainer = styled.div`
     text-transform: uppercase;
     font-size: 0.7rem;
     font-weight: 700;
+    margin-bottom: 0.8rem;
   }
 
   .name {
     font-size: 1.25rem;
     color: ${(props) => props.theme['base-subtitle']};
     font-family: 'Baloo 2', cursive;
+    margin-bottom: 0.3rem;
   }
 
   .description {
@@ -51,11 +48,13 @@ export const ContentContainer = styled.div`
     color: ${(props) => props.theme['base-label']};
     line-height: 130%;
     text-align: center;
+    margin-bottom: 1.5rem;
   }
 `
 
 export const PricingAndAddToCart = styled.div`
   width: 100%;
+  max-height: 2.7rem;
   display: flex;
   justify-content: space-between;
 `
@@ -74,3 +73,14 @@ export const Pricing = styled.div`
     font-family: 'Baloo 2', cursive;
   }
 `
+export const AddToCartButton = styled.button`
+  border: none;
+  border-radius: 6px;
+  background-color: ${props => props.theme['purple-dark']};
+  padding: 0.7rem;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: ${props => props.theme['purple']};
+  }
+` 

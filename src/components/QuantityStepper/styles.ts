@@ -10,9 +10,12 @@ export const Container = styled.div`
 export const Button = styled.button`
     border: none;
     background: transparent;
-    padding: 0.5rem 0.8rem;
-    color: ${props => props.theme['purple-dark']};
+    padding: 0rem 0.8rem;
+    color: ${props => props.theme['purple']};
     font-size: 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 export const Quantity = styled.span`
