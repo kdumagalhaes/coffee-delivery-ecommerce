@@ -8,10 +8,19 @@ import {
   SelectedProduct,
   BillingSummary,
   PlaceOrderButton,
+  BlockHeader,
+  InstallmentButton,
 } from './styles'
 
 // assets
-import { MapPin, Trash } from 'phosphor-react'
+import {
+  MapPin,
+  Trash,
+  CurrencyDollar,
+  CreditCard,
+  Bank,
+  Money,
+} from 'phosphor-react'
 import { QuantityStepper } from '../../components/QuantityStepper/QuantityStepper'
 
 // mock
@@ -23,22 +32,46 @@ export function Checkout() {
       <div className="left-blocks">
         <SubTitle>Complete seu pedido</SubTitle>
         <CheckoutForm>
-          <div className="form-header">
+          <BlockHeader>
             <MapPin size={22} color="#C47F17" />
-            <div className="form-text">
-              <p className="form-title">Endereço de Entrega</p>
-              <p className="form-subtitle">
+            <div className="block-text">
+              <p className="block-title">Endereço de Entrega</p>
+              <p className="block-subtitle">
                 Informe o endereço onde deseja receber seu pedido
               </p>
             </div>
-          </div>
+          </BlockHeader>
         </CheckoutForm>
-        <Installments></Installments>
+        <Installments>
+          <BlockHeader>
+            <CurrencyDollar size={22} color="#8047F8" />
+            <div className="block-text">
+              <p className="block-title">Pagamento</p>
+              <p className="block-subtitle">
+                O pagamento é feito na entrega. Escolha a forma que deseja pagar
+              </p>
+            </div>
+          </BlockHeader>
+          <div className="installments-options">
+            <InstallmentButton>
+              <CreditCard size={16} color="#8047F8" />
+              Cartão de crédito
+            </InstallmentButton>
+            <InstallmentButton>
+              <Bank size={16} color="#8047F8" />
+              Cartão de débito
+            </InstallmentButton>
+            <InstallmentButton>
+              <Money size={16} color="#8047F8" />
+              Dinheiro
+            </InstallmentButton>
+          </div>
+        </Installments>
       </div>
       <div className="right-blocks">
         <SubTitle>Cafés selecionados</SubTitle>
         <OrderSummary>
-          <ul className="products-list">
+          <ul className="product-list">
             <SelectedProduct>
               <img
                 src={CafeImgMock}

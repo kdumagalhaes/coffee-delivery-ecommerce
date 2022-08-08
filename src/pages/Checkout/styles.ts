@@ -19,33 +19,38 @@ const BlockLayout = styled.div`
   }
 `
 
-export const CheckoutForm = styled(BlockLayout)`
+export const BlockHeader = styled.div`
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+
   .right-blocks {
     display: flex;
     flex-direction: column;
   }
 
-  .form-header {
-    display: flex;
-    gap: 0.6rem;
-    margin-bottom: 2rem;
-  }
-
-  .form-text {
+  .block-text {
     line-height: 130%;
   }
 
-  .form-title {
+  .block-title {
     color: ${(props) => props.theme['base-subtitle']};
   }
 
-  .form-subtitle {
+  .block-subtitle {
     font-size: 0.8rem;
     color: ${(props) => props.theme['base-text']};
   }
 `
 
-export const Installments = styled(BlockLayout)``
+export const CheckoutForm = styled(BlockLayout)``
+
+export const Installments = styled(BlockLayout)`
+  .installments-options {
+    display: flex;
+    gap: 0.75rem;
+  }
+`
 
 export const OrderSummary = styled.div`
   width: 28rem;
@@ -155,4 +160,19 @@ export const PlaceOrderButton = styled.a`
   &:hover {
     background-color: ${(props) => props.theme['yellow-dark']};
   }
+`
+export const InstallmentButton = styled.button`
+  width: 100%;
+  height: 3.2rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 6px;
+  border: none;
+  background-color: ${props => props.theme['base-button']};
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: ${props => props.theme['base-text']};
+  padding: 0 0.9rem;
+  gap: 0.4rem;
 `
