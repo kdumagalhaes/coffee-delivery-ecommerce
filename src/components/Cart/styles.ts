@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 
-export const Button = styled.button`
+export const CartButton = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 2.4rem;
   width: 2.4rem;
   border: none;
