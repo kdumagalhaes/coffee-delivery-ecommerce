@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   max-width: 70rem;
-  margin: 0 auto;
+  margin: 0 auto 10rem auto;
   display: flex;
 `
 
@@ -43,7 +43,44 @@ export const BlockHeader = styled.div`
   }
 `
 
-export const CheckoutForm = styled(BlockLayout)``
+export const CheckoutForm = styled(BlockLayout)`
+  .form-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .flex-hor {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .postal-code,
+  .number,
+  .neighbourhood {
+    max-width: 12.5rem;
+  }
+
+  .state {
+    max-width: 2.75rem;
+  }
+`
+
+export const CheckoutFormInput = styled.input`
+  width: 100%;
+  height: 2.6rem;
+  background-color: ${props => props.theme['base-input']};
+  border-radius: 6px;
+  border: 1px solid ${props => props.theme['base-button']};
+  outline: transparent;
+  padding: 0 0.7rem;
+  font-size: 0.9rem;
+  color: ${props => props.theme['base-label']};
+
+  &:focus {
+    outline: 1px solid ${props => props.theme['yellow-dark']};
+  }
+`
 
 export const Installments = styled(BlockLayout)`
   .installments-options {
@@ -161,6 +198,7 @@ export const PlaceOrderButton = styled.a`
     background-color: ${(props) => props.theme['yellow-dark']};
   }
 `
+// https://stackoverflow.com/questions/72786744/how-to-select-only-one-button-with-react-typescript
 export const InstallmentButton = styled.button`
   width: 100%;
   height: 3.2rem;
