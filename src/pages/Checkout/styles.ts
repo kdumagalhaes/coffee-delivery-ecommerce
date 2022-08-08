@@ -175,4 +175,15 @@ export const InstallmentButton = styled.button`
   color: ${props => props.theme['base-text']};
   padding: 0 0.9rem;
   gap: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: ${props => props.theme['base-hover']};
+  }
+
+  &:focus {
+    outline: 1px solid ${props => props.theme['purple']};
+    background-color: ${props => props.theme['purple-light']};
+  }
 `
