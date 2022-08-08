@@ -13,7 +13,7 @@ enum CoffeeTypes {
   ALCOOLICO = 'alcoólico',
   GELADO = 'gelado',
   COM_LEITE = 'com leite',
-  ESPECIAL = 'especial'
+  ESPECIAL = 'especial',
 }
 
 export const products: Products[] = [

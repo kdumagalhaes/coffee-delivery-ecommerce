@@ -10,7 +10,7 @@ import {
   PlaceOrderButton,
   BlockHeader,
   InstallmentButton,
-  CheckoutFormInput
+  CheckoutFormInput,
 } from './styles'
 
 // assets
@@ -43,17 +43,60 @@ export function Checkout() {
             </div>
           </BlockHeader>
           <div className="form-inputs">
-          <CheckoutFormInput name='postal-code' id='postal-code' type="text" className="postal-code" placeholder='CEP' autoFocus/>
-          <CheckoutFormInput name='street' id='street' type="text" className="street" placeholder='Rua'/>
-          <div className="flex-hor">
-          <CheckoutFormInput name='number' id='number' type="number" className="number" placeholder='Número'/>
-          <CheckoutFormInput name='complement' id='complement' type="text" className="complement" placeholder='Complemento'/>
-          </div>
-          <div className="flex-hor">
-          <CheckoutFormInput name='neighbourhood' id='neighbourhood' type="text" className="neighbourhood" placeholder='Bairro'/>
-          <CheckoutFormInput name='city' id='city' type="text" className="city" placeholder='Cidade'/>
-          <CheckoutFormInput name='state' id='state' type="text" className="state" placeholder='UF'/>
-          </div>
+            <CheckoutFormInput
+              name="postal-code"
+              id="postal-code"
+              type="text"
+              className="postal-code"
+              placeholder="CEP"
+              autoFocus
+            />
+            <CheckoutFormInput
+              name="street"
+              id="street"
+              type="text"
+              className="street"
+              placeholder="Rua"
+            />
+            <div className="flex-hor">
+              <CheckoutFormInput
+                name="number"
+                id="number"
+                type="number"
+                className="number"
+                placeholder="Número"
+              />
+              <CheckoutFormInput
+                name="complement"
+                id="complement"
+                type="text"
+                className="complement"
+                placeholder="Complemento"
+              />
+            </div>
+            <div className="flex-hor">
+              <CheckoutFormInput
+                name="neighbourhood"
+                id="neighbourhood"
+                type="text"
+                className="neighbourhood"
+                placeholder="Bairro"
+              />
+              <CheckoutFormInput
+                name="city"
+                id="city"
+                type="text"
+                className="city"
+                placeholder="Cidade"
+              />
+              <CheckoutFormInput
+                name="state"
+                id="state"
+                type="text"
+                className="state"
+                placeholder="UF"
+              />
+            </div>
           </div>
         </CheckoutForm>
         <Installments>
