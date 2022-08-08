@@ -69,16 +69,16 @@ export const CheckoutForm = styled(BlockLayout)`
 export const CheckoutFormInput = styled.input`
   width: 100%;
   height: 2.6rem;
-  background-color: ${props => props.theme['base-input']};
+  background-color: ${(props) => props.theme['base-input']};
   border-radius: 6px;
-  border: 1px solid ${props => props.theme['base-button']};
+  border: 1px solid ${(props) => props.theme['base-button']};
   outline: transparent;
   padding: 0 0.7rem;
   font-size: 0.9rem;
-  color: ${props => props.theme['base-label']};
+  color: ${(props) => props.theme['base-label']};
 
   &:focus {
-    outline: 1px solid ${props => props.theme['yellow-dark']};
+    outline: 1px solid ${(props) => props.theme['yellow-dark']};
   }
 `
 
@@ -207,21 +207,21 @@ export const InstallmentButton = styled.button`
   align-items: center;
   border-radius: 6px;
   border: none;
-  background-color: ${props => props.theme['base-button']};
+  background-color: ${(props) => props.theme['base-button']};
   text-transform: uppercase;
   font-size: 0.75rem;
-  color: ${props => props.theme['base-text']};
+  color: ${(props) => props.theme['base-text']};
   padding: 0 0.9rem;
   gap: 0.4rem;
   cursor: pointer;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: ${props => props.theme['base-hover']};
+    background-color: ${(props) => props.theme['base-hover']};
   }
 
   &:focus {
-    outline: 1px solid ${props => props.theme['purple']};
-    background-color: ${props => props.theme['purple-light']};
+    outline: 1px solid ${(props) => props.theme.purple};
+    background-color: ${(props) => props.theme['purple-light']};
   }
 `
