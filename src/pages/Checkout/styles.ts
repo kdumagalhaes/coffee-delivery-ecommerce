@@ -75,6 +75,12 @@ export const CheckoutForm = styled.form`
   .state {
     max-width: 2.95rem;
   }
+
+  .error-message {
+    font-size: 0.75rem;
+    color: #ff0000;
+    margin-left: 0.8rem;
+  }
 `
 
 export const CheckoutFormInput = styled.input`

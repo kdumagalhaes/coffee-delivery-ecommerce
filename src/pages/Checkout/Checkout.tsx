@@ -45,6 +45,7 @@ interface AddressViaApi {
 
 export function Checkout() {
   const [postalCode, setPostalCode] = useState<string>('')
+  const [error, setError] = useState<string>('')
   const [addressViaApi, setAddresViaApi] = useState<AddressViaApi>({
     bairro: '',
     cep: '',
@@ -74,6 +75,7 @@ export function Checkout() {
       fetch(VIA_CEP_ENDPOINT)
         .then((response) => response.json())
         .then((json) => setAddresViaApi(json))
+        .catch((error) => setError('CEP não encontrado!'))
   }, [postalCodeInputController])
 
   return (
@@ -102,6 +104,9 @@ export function Checkout() {
               max={8}
               onChange={(e) => handlePostalCode(e)}
             />
+            {error && addressViaApi?.logradouro === undefined ? (
+              <span className="error-message">{error}</span>
+            ) : null}
             <CheckoutFormInput
               id="street"
               type="text"
