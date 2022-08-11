@@ -10,6 +10,7 @@
     "lint": "eslint src --ext .ts,.tsx --fix"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.7",
     "phosphor-react": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

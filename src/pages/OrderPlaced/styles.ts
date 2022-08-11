@@ -51,11 +51,11 @@ export const Container = styled.div`
     margin-bottom: 2rem;
 
     &:last-child {
-        margin-bottom: 0;
+      margin-bottom: 0;
     }
-    }
+  }
 
-    .order-confirmation-illustration {
-        align-self: flex-end;
-    }
+  .order-confirmation-illustration {
+    align-self: flex-end;
+  }
 `
