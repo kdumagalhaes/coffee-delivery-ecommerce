@@ -29,12 +29,6 @@ import CafeImgMock from '../../assets/images/coffee/expresso.svg'
 
 // utils
 import { useEffect, useState } from 'react'
-
-// pegar o valor do CEP via API assim que inserir 8 digitos 
-// preencher os outros campos, menos complemento, com os dados retornados da API
-// caso a API não retorne, deixar o usuário preencher manualmente
-// se o usuário preencher manualmente, persistir os dados dele
-
 interface AddressViaApi {
   bairro: string
   cep: string
@@ -61,34 +55,32 @@ export function Checkout() {
     localidade: '',
     logradouro: '',
     siafi: '',
-    uf: ''
+    uf: '',
   })
 
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
-  const postalCodePattern = /^[0-9]{5}-[0-9]{3}$/
+  const postalCodePattern = '/^[0-9]{5}-[0-9]{3}$/'
 
   const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setPostalCode(e.target.value)
+    const userInput = e.target.value
+    const userInputWithoutHifen = userInput.replace(/-/g, '')
+    setPostalCode(userInputWithoutHifen)
   }
 
   useEffect(() => {
     const VIA_CEP_ENDPOINT = `https://viacep.com.br/ws/${postalCode}/json/`
 
-    if(postalCode)
-    fetch(VIA_CEP_ENDPOINT)
-    .then(response => response.json())
-    .then(json => setAddresViaApi(json))
+    if (postalCode)
+      fetch(VIA_CEP_ENDPOINT)
+        .then((response) => response.json())
+        .then((json) => setAddresViaApi(json))
   }, [postalCodeInputController])
-
-  //https://dev.to/juanmanuelcrego/input-mask-in-react-without-libraries-5akf
 
   return (
     <Container>
       <div className="left-blocks">
         <SubTitle>Complete seu pedido</SubTitle>
-        <CheckoutForm
-          id="checkout-form"
-        >
+        <CheckoutForm id="checkout-form">
           <BlockHeader>
             <MapPin size={22} color="#C47F17" />
             <div className="block-text">
