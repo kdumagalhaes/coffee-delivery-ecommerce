@@ -27,12 +27,68 @@ import { QuantityStepper } from '../../components/QuantityStepper/QuantitySteppe
 // mock
 import CafeImgMock from '../../assets/images/coffee/expresso.svg'
 
+// utils
+import { useEffect, useState } from 'react'
+
+// pegar o valor do CEP via API assim que inserir 8 digitos 
+// preencher os outros campos, menos complemento, com os dados retornados da API
+// caso a API não retorne, deixar o usuário preencher manualmente
+// se o usuário preencher manualmente, persistir os dados dele
+
+interface AddressViaApi {
+  bairro: string
+  cep: string
+  complemento: string
+  ddd: string
+  gia: string
+  ibge: string
+  localidade: string
+  logradouro: string
+  siafi: string
+  uf: string
+  erro?: string
+}
+
 export function Checkout() {
+  const [postalCode, setPostalCode] = useState<string>('')
+  const [addressViaApi, setAddresViaApi] = useState<AddressViaApi>({
+    bairro: '',
+    cep: '',
+    complemento: '',
+    ddd: '',
+    gia: '',
+    ibge: '',
+    localidade: '',
+    logradouro: '',
+    siafi: '',
+    uf: ''
+  })
+
+  const postalCodeInputController = postalCode.length === 8 ? postalCode : null
+  const postalCodePattern = /^[0-9]{5}-[0-9]{3}$/
+
+  const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setPostalCode(e.target.value)
+  }
+
+  useEffect(() => {
+    const VIA_CEP_ENDPOINT = `https://viacep.com.br/ws/${postalCode}/json/`
+
+    if(postalCode)
+    fetch(VIA_CEP_ENDPOINT)
+    .then(response => response.json())
+    .then(json => setAddresViaApi(json))
+  }, [postalCodeInputController])
+
+  //https://dev.to/juanmanuelcrego/input-mask-in-react-without-libraries-5akf
+
   return (
     <Container>
       <div className="left-blocks">
         <SubTitle>Complete seu pedido</SubTitle>
-        <CheckoutForm>
+        <CheckoutForm
+          id="checkout-form"
+        >
           <BlockHeader>
             <MapPin size={22} color="#C47F17" />
             <div className="block-text">
@@ -44,57 +100,73 @@ export function Checkout() {
           </BlockHeader>
           <div className="form-inputs">
             <CheckoutFormInput
-              name="postal-code"
               id="postal-code"
               type="text"
               className="postal-code"
               placeholder="CEP"
               autoFocus
+              required
+              min={1}
+              max={8}
+              onChange={(e) => handlePostalCode(e)}
             />
             <CheckoutFormInput
-              name="street"
               id="street"
               type="text"
               className="street"
               placeholder="Rua"
+              required
+              min={1}
+              value={addressViaApi?.logradouro}
+              readOnly
             />
             <div className="flex-hor">
               <CheckoutFormInput
-                name="number"
                 id="number"
-                type="number"
+                type="text"
                 className="number"
                 placeholder="Número"
+                required
+                min={1}
               />
               <CheckoutFormInput
-                name="complement"
                 id="complement"
                 type="text"
                 className="complement"
                 placeholder="Complemento"
+                min={1}
               />
             </div>
             <div className="flex-hor">
               <CheckoutFormInput
-                name="neighbourhood"
                 id="neighbourhood"
                 type="text"
                 className="neighbourhood"
                 placeholder="Bairro"
+                required
+                min={1}
+                value={addressViaApi?.bairro}
+                readOnly
               />
               <CheckoutFormInput
-                name="city"
                 id="city"
                 type="text"
                 className="city"
                 placeholder="Cidade"
+                required
+                min={1}
+                value={addressViaApi?.localidade}
+                readOnly
               />
               <CheckoutFormInput
-                name="state"
                 id="state"
                 type="text"
                 className="state"
                 placeholder="UF"
+                required
+                max={2}
+                value={addressViaApi?.uf}
+                readOnly
               />
             </div>
           </div>
@@ -187,7 +259,7 @@ export function Checkout() {
                 <span className="billing-total-value">R$ 33,20</span>
               </li>
             </ul>
-            <PlaceOrderButton href="/order-placed">
+            <PlaceOrderButton type="submit" form="checkout-form">
               Confirmar pedido
             </PlaceOrderButton>
           </BillingSummary>

@@ -43,7 +43,18 @@ export const BlockHeader = styled.div`
   }
 `
 
-export const CheckoutForm = styled(BlockLayout)`
+export const CheckoutForm = styled.form`
+  width: 40rem;
+  margin-right: 2rem;
+  border-radius: 6px;
+  padding: 2.5rem;
+  background-color: ${(props) => props.theme['base-card']};
+  margin-bottom: 0.85rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
   .form-inputs {
     display: flex;
     flex-direction: column;
@@ -62,7 +73,7 @@ export const CheckoutForm = styled(BlockLayout)`
   }
 
   .state {
-    max-width: 2.75rem;
+    max-width: 2.95rem;
   }
 `
 
@@ -179,7 +190,7 @@ export const BillingSummary = styled.div`
   }
 `
 
-export const PlaceOrderButton = styled.a`
+export const PlaceOrderButton = styled.button`
   display: flex;
   justify-content: center;
   align-content: center;
@@ -193,6 +204,7 @@ export const PlaceOrderButton = styled.a`
   font-size: 0.9rem;
   font-weight: 700;
   transition: background-color 0.3s;
+  border: none;
 
   &:hover {
     background-color: ${(props) => props.theme['yellow-dark']};

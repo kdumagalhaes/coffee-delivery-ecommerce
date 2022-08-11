@@ -1,7 +1,7 @@
 import { Container } from './styles'
 
 // assets
-import OrderConfirmationIlustration from '../../assets/images/illustration.svg'
+import OrderConfirmationIllustration from '../../assets/images/illustration.svg'
 import DeliveryAddressIcon from '../../assets/icons/map-circle.svg'
 import DeliverySLAIcon from '../../assets/icons/watch-circle.svg'
 import DeliveryInstallmentIcon from '../../assets/icons/currency-circle.svg'
@@ -22,7 +22,7 @@ export function OrderPlaced() {
         </p>
         <div className="order-data">
           <ul>
-            <li className='order-data-item'>
+            <li className="order-data-item">
               <img
                 src={DeliveryAddressIcon}
                 alt="ícone de localização no mapa"
@@ -39,14 +39,14 @@ export function OrderPlaced() {
                 </p>
               </div>
             </li>
-            <li className='order-data-item'>
+            <li className="order-data-item">
               <img src={DeliverySLAIcon} alt="ícone de relógio" />
               <div className="text-content">
                 <p>Previsão de entrega</p>
                 <strong>20 - 30 min</strong>
               </div>
             </li>
-            <li className='order-data-item'>
+            <li className="order-data-item">
               <img src={DeliveryInstallmentIcon} alt="ícone de cifrão" />
               <div className="text-content">
                 <p>Pagamento na entrega</p>
@@ -57,7 +57,7 @@ export function OrderPlaced() {
         </div>
       </div>
       <img
-        src={OrderConfirmationIlustration}
+        src={OrderConfirmationIllustration}
         alt="ilustração de um motoboy"
         className="order-confirmation-illustration"
       />
