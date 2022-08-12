@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
 
 export const Location = styled.span`
   background-color: ${(props) => props.theme['purple-light']};
-  padding: 0.5rem;
+  padding: 0.5rem 0.7rem 0.5rem 0.5rem;
   font-size: 0.85rem;
   display: flex;
   align-items: center;
