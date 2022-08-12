@@ -31,9 +31,9 @@ export function ProductSummary({
       <ContentContainer>
         <img className="image" src={image} alt={name} />
         <div className="types">
-          {types.map((type) => {
+          {types.map((type, index) => {
             return (
-              <span key={id} className="type">
+              <span key={index} className="type">
                 {type}
               </span>
             )
