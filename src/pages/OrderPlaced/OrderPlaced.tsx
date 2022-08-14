@@ -1,7 +1,7 @@
 import { Container } from './styles'
 
 // assets
-import OrderConfirmationIllustration from '../../assets/images/illustration.svg'
+import OrderConfirmationIllustration from '../../assets/images/order-confirmation-illustration.svg'
 import DeliveryAddressIcon from '../../assets/icons/map-circle.svg'
 import DeliverySLAIcon from '../../assets/icons/watch-circle.svg'
 import DeliveryInstallmentIcon from '../../assets/icons/currency-circle.svg'
