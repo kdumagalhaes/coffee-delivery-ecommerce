@@ -19,7 +19,7 @@ enum CoffeeTypes {
 export const products: Products[] = [
   {
     id: 'coffee-1',
-    image: '/src/assets/images/coffee/expresso.svg',
+    image: 'coffee-1',
     name: 'Expresso Tradicional',
     types: [CoffeeTypes.TRADICIONAL],
     description: 'O tradicional café feito com água quente e grãos moídos',
@@ -28,7 +28,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-2',
-    image: '/src/assets/images/coffee/expresso-americano.svg',
+    image: 'coffee-2',
     name: 'Expresso Americano',
     types: [CoffeeTypes.TRADICIONAL],
     description: 'Expresso diluído, menos intenso que o tradicional',
@@ -37,7 +37,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-3',
-    image: '/src/assets/images/coffee/expresso-cremoso.svg',
+    image: 'coffee-3',
     name: 'Expresso Cremoso',
     types: [CoffeeTypes.TRADICIONAL],
     description: 'Café expresso tradicional com espuma cremosa',
@@ -46,7 +46,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-4',
-    image: '/src/assets/images/coffee/cafe-gelado.svg',
+    image: 'coffee-4',
     name: 'Expresso Gelado',
     types: [CoffeeTypes.TRADICIONAL, CoffeeTypes.GELADO],
     description: 'Bebida preparada com café expresso e cubos de gelo',
@@ -55,7 +55,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-5',
-    image: '/src/assets/images/coffee/cafe-com-leite.svg',
+    image: 'coffee-5',
     name: 'Café com Leite',
     types: [CoffeeTypes.TRADICIONAL, CoffeeTypes.COM_LEITE],
     description: 'Meio a meio de expresso tradicional com leite vaporizado',
@@ -64,7 +64,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-6',
-    image: '/src/assets/images/coffee/latte.svg',
+    image: 'coffee-6',
     name: 'Latte',
     types: [CoffeeTypes.TRADICIONAL, CoffeeTypes.COM_LEITE],
     description:
@@ -74,7 +74,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-7',
-    image: '/src/assets/images/coffee/capuccino.svg',
+    image: 'coffee-7',
     name: 'Capuccino',
     types: [CoffeeTypes.TRADICIONAL, CoffeeTypes.COM_LEITE],
     description:
@@ -84,7 +84,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-8',
-    image: '/src/assets/images/coffee/machiatto.svg',
+    image: 'coffee-8',
     name: 'Macchiato',
     types: [CoffeeTypes.TRADICIONAL, CoffeeTypes.COM_LEITE],
     description:
@@ -94,7 +94,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-9',
-    image: '/src/assets/images/coffee/mochaccino.svg',
+    image: 'coffee-9',
     name: 'Mocaccino',
     types: [CoffeeTypes.TRADICIONAL, CoffeeTypes.COM_LEITE],
     description: 'Café expresso com calda de chocolate, pouco leite e espuma',
@@ -103,7 +103,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-10',
-    image: '/src/assets/images/coffee/chocolate-quente.svg',
+    image: 'coffee-10',
     name: 'Chocolate Quente',
     types: [CoffeeTypes.ESPECIAL, CoffeeTypes.COM_LEITE],
     description: 'Bebida feita com chocolate dissolvido no leite quente e café',
@@ -112,7 +112,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-11',
-    image: '/src/assets/images/coffee/cubano.svg',
+    image: 'coffee-11',
     name: 'Cubano',
     types: [CoffeeTypes.ESPECIAL, CoffeeTypes.ALCOOLICO, CoffeeTypes.COM_LEITE],
     description:
@@ -122,7 +122,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-12',
-    image: '/src/assets/images/coffee/havaiano.svg',
+    image: 'coffe-12',
     name: 'Havaiano',
     types: [CoffeeTypes.ESPECIAL],
     description: 'Bebida adocicada preparada com café e leite de coco',
@@ -131,7 +131,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-13',
-    image: '/src/assets/images/coffee/arabe.svg',
+    image: 'coffee-13',
     name: 'Árabe',
     types: [CoffeeTypes.ESPECIAL],
     description: 'Bebida preparada com grãos de café árabe e especiarias',
@@ -140,7 +140,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-14',
-    image: '/src/assets/images/coffee/irlandes.svg',
+    image: 'coffee-14',
     name: 'Irlandês',
     types: [CoffeeTypes.ESPECIAL, CoffeeTypes.ALCOOLICO],
     description: 'Bebida a base de café, uísque irlandês, açúcar e chantilly',
