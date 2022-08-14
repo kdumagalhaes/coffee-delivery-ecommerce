@@ -14,6 +14,22 @@ import { QuantityStepper } from '../QuantityStepper/QuantityStepper'
 // assets
 import { ShoppingCartSimple } from 'phosphor-react'
 
+// thumbs
+import Arabe from '../../assets/images/coffee/arabe.svg'
+import CafeComLeite from '../../assets/images/coffee/cafe-com-leite.svg'
+import CafeGelado from '../../assets/images/coffee/cafe-gelado.svg'
+import Capuccino from '../../assets/images/coffee/capuccino.svg'
+import ChocolateQuente from '../../assets/images/coffee/chocolate-quente.svg'
+import Cubano from '../../assets/images/coffee/cubano.svg'
+import ExpressoAmericano from '../../assets/images/coffee/expresso-americano.svg'
+import ExpressoCremoso from '../../assets/images/coffee/expresso-cremoso.svg'
+import Expresso from '../../assets/images/coffee/expresso.svg'
+import Havaiano from '../../assets/images/coffee/havaiano.svg'
+import Irlandes from '../../assets/images/coffee/irlandes.svg'
+import Latte from '../../assets/images/coffee/latte.svg'
+import Machiatto from '../../assets/images/coffee/machiatto.svg'
+import Mochaccino from '../../assets/images/coffee/mochaccino.svg'
+
 interface ProductSummaryProps extends Products {}
 
 export function ProductSummary({
@@ -26,10 +42,59 @@ export function ProductSummary({
 }: ProductSummaryProps) {
   const convertedPrice = formatPrice(price)
 
+  let imageSrc = ''
+
+  switch (image) {
+    case 'coffee-1':
+      imageSrc = Expresso
+      break
+    case 'coffee-2':
+      imageSrc = ExpressoAmericano
+      break
+    case 'coffee-3':
+      imageSrc = ExpressoCremoso
+      break
+    case 'coffee-4':
+      imageSrc = CafeGelado
+      break
+    case 'coffee-5':
+      imageSrc = CafeComLeite
+      break
+    case 'coffee-6':
+      imageSrc = Latte
+      break
+    case 'coffee-7':
+      imageSrc = Capuccino
+      break
+    case 'coffee-8':
+      imageSrc = Machiatto
+      break
+    case 'coffee-9':
+      imageSrc = Mochaccino
+      break
+    case 'coffee-10':
+      imageSrc = ChocolateQuente
+      break
+    case 'coffee-11':
+      imageSrc = Cubano
+      break
+    case 'coffee-12':
+      imageSrc = Havaiano
+      break
+    case 'coffee-13':
+      imageSrc = Arabe
+      break
+    case 'coffee-14':
+      imageSrc = Irlandes
+      break
+    default:
+      break
+  }
+
   return (
     <Container>
       <ContentContainer>
-        <img className="image" src={image} alt={name} />
+        <img className="image" src={imageSrc} alt={name} />
         <div className="types">
           {types.map((type, index) => {
             return (
