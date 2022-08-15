@@ -1,0 +1,7 @@
+{
+    "rewrites":  [
+      {"source": "/", "destination": "/"},
+      {"source": "/checkout", "destination": "/checkout"},
+      {"source": "/order-placed", "destination": "/order-placed"}
+    ]
+  }

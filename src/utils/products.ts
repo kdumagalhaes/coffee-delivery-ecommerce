@@ -122,7 +122,7 @@ export const products: Products[] = [
   },
   {
     id: 'coffee-12',
-    image: 'coffe-12',
+    image: 'coffee-12',
     name: 'Havaiano',
     types: [CoffeeTypes.ESPECIAL],
     description: 'Bebida adocicada preparada com café e leite de coco',
