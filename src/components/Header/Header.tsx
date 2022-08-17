@@ -5,7 +5,7 @@ import Logo from '../../assets/logo.svg'
 import { MapPin } from 'phosphor-react'
 
 // components
-import { Cart } from '../Cart/Cart'
+import { MiniCart } from '../MiniCart/MiniCart'
 
 export function Header() {
   return (
@@ -18,7 +18,7 @@ export function Header() {
           <MapPin size={22} weight="fill" color={'#8047F8'} />
           <p>Nome da cidade, UF</p>
         </Location>
-        <Cart />
+        <MiniCart />
       </Wrapper>
     </Container>
   )

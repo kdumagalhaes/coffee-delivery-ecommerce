@@ -7,7 +7,7 @@ import {
 } from './styles'
 
 // utils
-import { Products } from '../../utils/products'
+import { products, Products } from '../../utils/products'
 import { formatPrice } from '../../utils/format'
 import { QuantityStepper } from '../QuantityStepper/QuantityStepper'
 
@@ -29,6 +29,8 @@ import Irlandes from '../../assets/images/coffee/irlandes.svg'
 import Latte from '../../assets/images/coffee/latte.svg'
 import Machiatto from '../../assets/images/coffee/machiatto.svg'
 import Mochaccino from '../../assets/images/coffee/mochaccino.svg'
+import { useContext } from 'react'
+import { CartContext, CartContextType } from '../../contexts/CartContext'
 
 interface ProductSummaryProps extends Products {}
 
@@ -39,8 +41,24 @@ export function ProductSummary({
   description,
   price,
   id,
+  inventory
 }: ProductSummaryProps) {
   const convertedPrice = formatPrice(price)
+
+  const { addToCart } = useContext(CartContext) as CartContextType
+
+  const handleAddToCart = (): void => {
+    const selectedProduct: Products = {
+      name,
+      image,
+      types,
+      description,
+      price,
+      id,
+      inventory
+    }
+    addToCart(selectedProduct)
+  }
 
   let imageSrc = ''
 
@@ -113,7 +131,7 @@ export function ProductSummary({
           <span className="price">{convertedPrice}</span>
         </Pricing>
         <QuantityStepper />
-        <AddToCartButton>
+        <AddToCartButton onClick={handleAddToCart}>
           <ShoppingCartSimple size={22} weight="fill" color="#F3F2F2" />
         </AddToCartButton>
       </PricingAndAddToCart>
