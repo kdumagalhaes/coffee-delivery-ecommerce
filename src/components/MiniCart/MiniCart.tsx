@@ -7,11 +7,15 @@ import { useState } from 'react'
 
 export function MiniCart() {
   const [totalItems, setTotalItems] = useState(0)
-  const {products} = useCart()
+  const { products } = useCart()
 
   return (
     <CartButton href="/checkout">
-      {products.length === 0 ? '' : <ItemQuantity>{products.length}</ItemQuantity>}
+      {products.length === 0 ? (
+        ''
+      ) : (
+        <ItemQuantity>{products.length}</ItemQuantity>
+      )}
       <ShoppingCart size={22} weight="fill" color={'#C47F17'} />
     </CartButton>
   )

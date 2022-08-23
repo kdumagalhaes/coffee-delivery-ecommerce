@@ -28,8 +28,9 @@ import { QuantityStepper } from '../../components/QuantityStepper/QuantitySteppe
 import CafeImgMock from '../../assets/images/coffee/expresso.svg'
 
 // utils
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useReducer, useState } from 'react'
 import { CartContext } from '../../contexts/CartContext'
+import useCart from '../../contexts/cart/CartContext'
 interface AddressViaApi {
   bairro: string
   cep: string
@@ -59,7 +60,8 @@ export function Checkout() {
     siafi: '',
     uf: '',
   })
-
+  const { products } = useCart()
+  console.log('checkout products = ', products)
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
 
   const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -198,42 +200,28 @@ export function Checkout() {
         <SubTitle>Cafés selecionados</SubTitle>
         <OrderSummary>
           <ul className="product-list">
-            <SelectedProduct>
-              <img
-                src={CafeImgMock}
-                alt="product name"
-                className="product-image"
-              />
-              <div className="product-name-and-controls">
-                <p className="product-name">Expresso Tradicional</p>
-                <div className="controls">
-                  <QuantityStepper />
-                  <RemoveButton>
-                    <Trash size={16} color="#8047F8" />
-                    Remover
-                  </RemoveButton>
-                </div>
-              </div>
-              <strong className="price">R$ 9,90</strong>
-            </SelectedProduct>
-            <SelectedProduct>
-              <img
-                src={CafeImgMock}
-                alt="product name"
-                className="product-image"
-              />
-              <div className="product-name-and-controls">
-                <p className="product-name">Expresso Tradicional</p>
-                <div className="controls">
-                  <QuantityStepper />
-                  <RemoveButton>
-                    <Trash size={16} color="#8047F8" />
-                    Remover
-                  </RemoveButton>
-                </div>
-              </div>
-              <strong className="price">R$ 9,90</strong>
-            </SelectedProduct>
+            {products.map((product) => {
+              return (
+                <SelectedProduct>
+                  <img
+                    src={CafeImgMock}
+                    alt="product name"
+                    className="product-image"
+                  />
+                  <div className="product-name-and-controls">
+                    <p className="product-name">{product.name}</p>
+                    <div className="controls">
+                      <QuantityStepper />
+                      <RemoveButton>
+                        <Trash size={16} color="#8047F8" />
+                        Remover
+                      </RemoveButton>
+                    </div>
+                  </div>
+                  <strong className="price">{product.price}</strong>
+                </SelectedProduct>
+              )
+            })}
           </ul>
           <BillingSummary>
             <ul className="billing">

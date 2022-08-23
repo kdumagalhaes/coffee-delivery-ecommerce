@@ -1,19 +1,45 @@
-import { createContext, useReducer, useContext, ReactNode } from 'react'
+import {
+  createContext,
+  useReducer,
+  useContext,
+  ReactNode,
+  useEffect,
+} from 'react'
 import { initialState, cartReducer } from '../../reducers/cartReducer'
-import {Products} from '../../utils/products'
-
-const CartContext = createContext(initialState)
+import { Products } from '../../utils/products'
 
 interface CartProviderProps {
   children: ReactNode
 }
 
+interface CartContext {
+  total: number
+  products: Products[]
+  addToCart: (product: Products[]) => void
+}
+
+const CartContext = createContext(initialState)
+
 export const CartProvider = ({ children }: CartProviderProps) => {
-  const [state, dispatch] = useReducer(cartReducer, initialState)
+  const [state, dispatch] = useReducer(cartReducer, initialState, () => {
+    const storedStateAsJson = localStorage.getItem(
+      '@coffee-delivery:cart-state-1.0.0',
+    )
+
+    if (storedStateAsJson) {
+      return JSON.parse(storedStateAsJson)
+    }
+  })
+
+  useEffect(() => {
+    const stateJSON = JSON.stringify(state)
+
+    localStorage.setItem('@coffee-delivery:cart-state-1.0.0', stateJSON)
+  }, [state])
 
   const addToCart = (product: Products[]) => {
     const updatedCart = state.products.concat(product)
-    console.log("updatedCart = ", updatedCart)
+    console.log('updatedCart = ', updatedCart)
     updatePrice(updatedCart)
     dispatch({
       type: 'ADD_TO_CART',
@@ -57,7 +83,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
 
-const useCart = (): any => {
+const useCart = (): CartContext => {
   const context = useContext(CartContext)
 
   if (context === undefined) {

@@ -41,10 +41,12 @@ export function ProductSummary({
   price,
 }: ProductSummaryProps) {
   const convertedPrice = formatPrice(price)
-  const {addToCart, products} = useCart()
+  const { addToCart, products } = useCart()
 
   const handleAddToCart = (): void => {
-    addToCart(products)
+    const product = { name, price }
+
+    addToCart(product)
   }
 
   let imageSrc = ''
