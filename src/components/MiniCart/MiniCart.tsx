@@ -6,7 +6,6 @@ import { ShoppingCart } from 'phosphor-react'
 import { useState } from 'react'
 
 export function MiniCart() {
-  const [totalItems, setTotalItems] = useState(0)
   const { products } = useCart()
 
   return (

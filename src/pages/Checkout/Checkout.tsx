@@ -24,12 +24,8 @@ import {
 } from 'phosphor-react'
 import { QuantityStepper } from '../../components/QuantityStepper/QuantityStepper'
 
-// mock
-import CafeImgMock from '../../assets/images/coffee/expresso.svg'
-
 // utils
-import { useContext, useEffect, useReducer, useState } from 'react'
-import { CartContext } from '../../contexts/CartContext'
+import { useState, useEffect } from 'react'
 import useCart from '../../contexts/cart/CartContext'
 interface AddressViaApi {
   bairro: string
@@ -60,7 +56,7 @@ export function Checkout() {
     siafi: '',
     uf: '',
   })
-  const { products } = useCart()
+  const { products, removeFromCart } = useCart()
   console.log('checkout products = ', products)
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
 
@@ -79,6 +75,11 @@ export function Checkout() {
         .then((json) => setAddresViaApi(json))
         .catch((error) => setError('CEP não encontrado!'))
   }, [postalCodeInputController])
+
+  const handleDeleteProduct = (): void => {
+    const [name] = products
+    removeFromCart(name)
+  }
 
   return (
     <Container>
@@ -202,9 +203,9 @@ export function Checkout() {
           <ul className="product-list">
             {products.map((product) => {
               return (
-                <SelectedProduct>
+                <SelectedProduct key={product.id}>
                   <img
-                    src={CafeImgMock}
+                    src={product.image}
                     alt="product name"
                     className="product-image"
                   />
@@ -212,7 +213,7 @@ export function Checkout() {
                     <p className="product-name">{product.name}</p>
                     <div className="controls">
                       <QuantityStepper />
-                      <RemoveButton>
+                      <RemoveButton onClick={handleDeleteProduct}>
                         <Trash size={16} color="#8047F8" />
                         Remover
                       </RemoveButton>

@@ -15,7 +15,8 @@ interface CartProviderProps {
 interface CartContext {
   total: number
   products: Products[]
-  addToCart: (product: Products[]) => void
+  addToCart: (product: Products) => void
+  removeFromCart: (product: Products) => void
 }
 
 const CartContext = createContext(initialState)
@@ -29,6 +30,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     if (storedStateAsJson) {
       return JSON.parse(storedStateAsJson)
     }
+    return initialState
   })
 
   useEffect(() => {

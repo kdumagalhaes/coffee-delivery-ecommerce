@@ -39,12 +39,14 @@ export function ProductSummary({
   types,
   description,
   price,
+  id,
+  inventory
 }: ProductSummaryProps) {
   const convertedPrice = formatPrice(price)
   const { addToCart, products } = useCart()
 
   const handleAddToCart = (): void => {
-    const product = { name, price }
+    const product = { name, price, image, types, description, id, inventory }
 
     addToCart(product)
   }
