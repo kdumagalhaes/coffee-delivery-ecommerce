@@ -1,5 +1,5 @@
-import { createContext, useState, ReactNode } from 'react'
-import { products, Products } from '../utils/products'
+import { createContext, useState, ReactNode, useReducer } from 'react'
+import { Products } from '../utils/products'
 
 export type CartContextType = {
   productList: Products[]
@@ -11,18 +11,32 @@ interface CartProviderProps {
   children: ReactNode
 }
 
+interface ProductListState {
+  productList: Products[]
+}
+
 export const CartContext = createContext({} as CartContextType)
 
 export const CartProvider = ({ children }: CartProviderProps) => {
-  const [productList, setProductList] = useState<Products[]>([{
-    description: '', 
-    name: '',
-    id: '',
-    image: '',
-    inventory: 0,
-    price: 0,
-    types: []
-}])
+  const [productListState, dispatch] = useReducer(
+    (state: ProductListState, action: any) => {
+      console.log('state = ', state)
+      console.log('action = ', action)
+
+      if (action.type === 'ADD_TO_CART') {
+        return {
+          ...state,
+          productList: [...state.productList, action.payload],
+        }
+      }
+      return state
+    },
+    {
+      productList: [],
+    },
+  )
+
+  const { productList } = productListState
 
   const addToCart = (product: Products) => {
     const selectedProduct: Products = {
@@ -34,14 +48,21 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       price: product.price,
       types: product.types,
     }
-    setProductList([...productList, selectedProduct])
+    console.log('selectedProduct = ', selectedProduct)
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: { ...selectedProduct },
+    })
   }
 
   const removeItem = (id: string) => {
     const productListWithoutDeletedOne = productList.filter((product) => {
       return product.id !== id
     })
-    setProductList(productListWithoutDeletedOne)
+    dispatch({
+      type: 'REMOVE_ITEM',
+      payload: productListWithoutDeletedOne,
+    })
   }
 
   return (

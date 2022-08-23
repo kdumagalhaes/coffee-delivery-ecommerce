@@ -7,9 +7,10 @@ import {
 } from './styles'
 
 // utils
-import { products, Products } from '../../utils/products'
+import { Products } from '../../utils/products'
 import { formatPrice } from '../../utils/format'
 import { QuantityStepper } from '../QuantityStepper/QuantityStepper'
+import useCart from '../../contexts/cart/CartContext'
 
 // assets
 import { ShoppingCartSimple } from 'phosphor-react'
@@ -29,8 +30,6 @@ import Irlandes from '../../assets/images/coffee/irlandes.svg'
 import Latte from '../../assets/images/coffee/latte.svg'
 import Machiatto from '../../assets/images/coffee/machiatto.svg'
 import Mochaccino from '../../assets/images/coffee/mochaccino.svg'
-import { useContext } from 'react'
-import { CartContext, CartContextType } from '../../contexts/CartContext'
 
 interface ProductSummaryProps extends Products {}
 
@@ -40,24 +39,12 @@ export function ProductSummary({
   types,
   description,
   price,
-  id,
-  inventory
 }: ProductSummaryProps) {
   const convertedPrice = formatPrice(price)
-
-  const { addToCart } = useContext(CartContext) as CartContextType
+  const {addToCart, products} = useCart()
 
   const handleAddToCart = (): void => {
-    const selectedProduct: Products = {
-      name,
-      image,
-      types,
-      description,
-      price,
-      id,
-      inventory
-    }
-    addToCart(selectedProduct)
+    addToCart(products)
   }
 
   let imageSrc = ''

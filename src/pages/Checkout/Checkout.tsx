@@ -28,7 +28,8 @@ import { QuantityStepper } from '../../components/QuantityStepper/QuantitySteppe
 import CafeImgMock from '../../assets/images/coffee/expresso.svg'
 
 // utils
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { CartContext } from '../../contexts/CartContext'
 interface AddressViaApi {
   bairro: string
   cep: string
@@ -60,7 +61,6 @@ export function Checkout() {
   })
 
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
-  const postalCodePattern = '/^[0-9]{5}-[0-9]{3}$/'
 
   const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const userInput = e.target.value

@@ -1,3 +1,10 @@
+enum CoffeeTypes {
+  TRADICIONAL = 'tradicional',
+  ALCOOLICO = 'alcoólico',
+  GELADO = 'gelado',
+  COM_LEITE = 'com leite',
+  ESPECIAL = 'especial',
+}
 export interface Products {
   id: string
   image: string
@@ -6,14 +13,6 @@ export interface Products {
   description: string
   price: number
   inventory: number
-}
-
-enum CoffeeTypes {
-  TRADICIONAL = 'tradicional',
-  ALCOOLICO = 'alcoólico',
-  GELADO = 'gelado',
-  COM_LEITE = 'com leite',
-  ESPECIAL = 'especial',
 }
 
 export const products: Products[] = [
