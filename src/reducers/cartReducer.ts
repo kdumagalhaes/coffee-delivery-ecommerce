@@ -39,7 +39,7 @@ export const cartReducer = (state: any, action: any) => {
     case CartActionKind.UPDATE_PRICE:
       return {
         ...state,
-        products: payload.products,
+        total: payload.total,
       }
     case CartActionKind.UPDATE_INVENTORY:
       return {

@@ -56,9 +56,10 @@ export function Checkout() {
     siafi: '',
     uf: '',
   })
-  const { products, removeFromCart } = useCart()
+  const { products, removeFromCart, total } = useCart()
   console.log('checkout products = ', products)
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
+  const deliveryCost = 3.50
 
   const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const userInput = e.target.value
@@ -230,7 +231,7 @@ export function Checkout() {
                   Total de itens
                 </p>
                 <span className="billing-items-value billing-value">
-                  R$ 29,70
+                  R$ {total}
                 </span>
               </li>
               <li>
@@ -241,7 +242,7 @@ export function Checkout() {
               </li>
               <li>
                 <p className="billing-total-title">Total</p>
-                <span className="billing-total-value">R$ 33,20</span>
+                <span className="billing-total-value">R$ {total + deliveryCost}</span>
               </li>
             </ul>
             <PlaceOrderButton type="submit" form="checkout-form">

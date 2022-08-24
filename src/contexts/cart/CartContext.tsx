@@ -17,6 +17,7 @@ interface CartContext {
   products: Products
   addToCart: (product: Products) => void
   removeFromCart: (product: Products) => void
+  updatePrice: (product: Products) => void
 }
 
 const CartContext = createContext(initialState)
@@ -67,11 +68,11 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const updatePrice = (products: Products[]) => {
     let total = 0
     products.forEach((product) => (total += product.price))
-
+    console.log("total inside updatePrice = ", total)
     dispatch({
       type: 'UPDATE_PRICE',
       payload: {
-        total,
+        total
       },
     })
   }
