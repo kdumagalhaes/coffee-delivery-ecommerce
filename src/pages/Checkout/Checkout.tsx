@@ -76,9 +76,8 @@ export function Checkout() {
         .catch((error) => setError('CEP não encontrado!'))
   }, [postalCodeInputController])
 
-  const handleDeleteProduct = (): void => {
-    const [name] = products
-    removeFromCart(name)
+  const handleDeleteProduct = (product: React.MouseEvent<HTMLElement>): void => {
+    removeFromCart(product)
   }
 
   return (
@@ -213,7 +212,7 @@ export function Checkout() {
                     <p className="product-name">{product.name}</p>
                     <div className="controls">
                       <QuantityStepper />
-                      <RemoveButton onClick={handleDeleteProduct}>
+                      <RemoveButton onClick={() => handleDeleteProduct(product)}>
                         <Trash size={16} color="#8047F8" />
                         Remover
                       </RemoveButton>

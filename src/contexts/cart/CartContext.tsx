@@ -14,7 +14,7 @@ interface CartProviderProps {
 
 interface CartContext {
   total: number
-  products: Products[]
+  products: Products
   addToCart: (product: Products) => void
   removeFromCart: (product: Products) => void
 }
