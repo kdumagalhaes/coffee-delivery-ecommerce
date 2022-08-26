@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 
-interface QuantityStepperContext {
+interface QuantityStepperContextKind {
   quantity: number
   setQuantity: (quantity: number) => void
 }
@@ -9,9 +9,9 @@ interface QuantityStepperProviderProps {
   children: ReactNode
 }
 
-const QuantityStepperContext = createContext({} as QuantityStepperContext)
+const QuantityStepperContext = createContext({} as QuantityStepperContextKind)
 
-const useQuantityStepperContext = (): QuantityStepperContext => {
+const useQuantityStepperContext = (): QuantityStepperContextKind => {
   const context = useContext(QuantityStepperContext)
   return context
 }

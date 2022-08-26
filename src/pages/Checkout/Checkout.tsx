@@ -25,8 +25,9 @@ import {
 import { QuantityStepper } from '../../components/QuantityStepper/QuantityStepper'
 
 // utils
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import useCart from '../../contexts/cart/CartContext'
+import { Products } from '../../utils/products'
 interface AddressViaApi {
   bairro: string
   cep: string
@@ -57,9 +58,8 @@ export function Checkout() {
     uf: '',
   })
   const { products, removeFromCart, total } = useCart()
-  console.log('checkout products = ', products)
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
-  const deliveryCost = 3.50
+  const deliveryCost = 3.5
 
   const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const userInput = e.target.value
@@ -74,10 +74,10 @@ export function Checkout() {
       fetch(VIA_CEP_ENDPOINT)
         .then((response) => response.json())
         .then((json) => setAddresViaApi(json))
-        .catch((error) => setError('CEP não encontrado!'))
-  }, [postalCodeInputController])
+        .catch((error) => setError('CEP não encontrado! ', error))
+  }, [postalCode, postalCodeInputController])
 
-  const handleDeleteProduct = (product: React.MouseEvent<HTMLElement>): void => {
+  const handleDeleteProduct = (product: Products): void => {
     removeFromCart(product)
   }
 
@@ -159,9 +159,9 @@ export function Checkout() {
                 readOnly
               />
               <CheckoutFormInput
-                id="state"
+                id="cartState"
                 type="text"
-                className="state"
+                className="cartState"
                 placeholder="UF"
                 required
                 max={2}
@@ -213,7 +213,9 @@ export function Checkout() {
                     <p className="product-name">{product.name}</p>
                     <div className="controls">
                       <QuantityStepper />
-                      <RemoveButton onClick={() => handleDeleteProduct(product)}>
+                      <RemoveButton
+                        onClick={() => handleDeleteProduct(product)}
+                      >
                         <Trash size={16} color="#8047F8" />
                         Remover
                       </RemoveButton>
@@ -242,7 +244,9 @@ export function Checkout() {
               </li>
               <li>
                 <p className="billing-total-title">Total</p>
-                <span className="billing-total-value">R$ {total + deliveryCost}</span>
+                <span className="billing-total-value">
+                  R$ {total + deliveryCost}
+                </span>
               </li>
             </ul>
             <PlaceOrderButton type="submit" form="checkout-form">

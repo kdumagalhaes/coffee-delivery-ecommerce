@@ -1,32 +1,27 @@
 import { Products } from '../utils/products'
 
-enum CartActionKind {
+export enum CartActionKind {
   ADD_TO_CART = 'ADD_TO_CART',
   REMOVE_FROM_CART = 'REMOVE_FROM_CART',
   UPDATE_PRICE = 'UPDATE_PRICE',
   UPDATE_INVENTORY = 'UPDATE_INVENTORY',
 }
-
-interface CartAction {
-  type: CartActionKind
-  payload: Products
-}
-
 interface CartState {
-  product: Products[]
+  products: Products[]
+  total: number
 }
 
-export const initialState = {
-  total: 0,
-  products: [],
-}
+type Action =
+  | { type: CartActionKind.ADD_TO_CART; payload: { products: Products[] } }
+  | { type: CartActionKind.REMOVE_FROM_CART; payload: { products: Products[] } }
+  | { type: CartActionKind.UPDATE_INVENTORY; payload: { products: Products[] } }
+  | { type: CartActionKind.UPDATE_PRICE; payload: { total: number } }
 
-export const cartReducer = (state: any, action: any) => {
+export const cartReducer = (state: CartState, action: Action) => {
   const { type, payload } = action
 
   switch (type) {
     case CartActionKind.ADD_TO_CART:
-      console.log('add_to_cart')
       return {
         ...state,
         products: payload.products,

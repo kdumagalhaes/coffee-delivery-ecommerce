@@ -72,7 +72,7 @@ export const CheckoutForm = styled.form`
     max-width: 12.5rem;
   }
 
-  .state {
+  .cartState {
     max-width: 2.95rem;
   }
 

@@ -5,27 +5,31 @@ import {
   ReactNode,
   useEffect,
 } from 'react'
-import { initialState, cartReducer } from '../../reducers/cartReducer'
+import { cartReducer, CartActionKind } from '../../reducers/cartReducer'
 import { Products } from '../../utils/products'
 
 interface CartProviderProps {
   children: ReactNode
 }
 
-interface CartContext {
-  total: number
-  products: Products
-  addToCart: (product: Products) => void
-  removeFromCart: (product: Products) => void
-  updatePrice: (product: Products) => void
+const initialState = {
+  total: 0,
+  products: [],
 }
 
-const CartContext = createContext(initialState)
+interface initialStateKind {
+  total: number
+  products: Products[]
+  addToCart: (product: Products) => void
+  removeFromCart: (product: Products) => void
+}
+
+const CartContext = createContext({} as initialStateKind)
 
 export const CartProvider = ({ children }: CartProviderProps) => {
-  const [state, dispatch] = useReducer(cartReducer, initialState, () => {
+  const [cartState, dispatch] = useReducer(cartReducer, initialState, () => {
     const storedStateAsJson = localStorage.getItem(
-      '@coffee-delivery:cart-state-1.0.0',
+      '@coffee-delivery:cart-cartState-1.0.0',
     )
 
     if (storedStateAsJson) {
@@ -35,17 +39,16 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   })
 
   useEffect(() => {
-    const stateJSON = JSON.stringify(state)
+    const stateJSON = JSON.stringify(cartState)
 
-    localStorage.setItem('@coffee-delivery:cart-state-1.0.0', stateJSON)
-  }, [state])
+    localStorage.setItem('@coffee-delivery:cart-cartState-1.0.0', stateJSON)
+  }, [cartState])
 
   const addToCart = (product: Products[]) => {
-    const updatedCart = state.products.concat(product)
-    console.log('updatedCart = ', updatedCart)
+    const updatedCart = cartState.products.concat(product)
     updatePrice(updatedCart)
     dispatch({
-      type: 'ADD_TO_CART',
+      type: CartActionKind.ADD_TO_CART,
       payload: {
         products: updatedCart,
       },
@@ -53,12 +56,12 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   }
 
   const removeFromCart = (product: Products) => {
-    const updatedCartWithoutDeletedProduct = state.products.filter(
+    const updatedCartWithoutDeletedProduct = cartState.products.filter(
       (currentProduct: Products) => currentProduct.name !== product.name,
     )
     updatePrice(updatedCartWithoutDeletedProduct)
     dispatch({
-      type: 'REMOVE_FROM_CART',
+      type: CartActionKind.REMOVE_FROM_CART,
       payload: {
         products: updatedCartWithoutDeletedProduct,
       },
@@ -68,31 +71,30 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const updatePrice = (products: Products[]) => {
     let total = 0
     products.forEach((product) => (total += product.price))
-    console.log("total inside updatePrice = ", total)
+    console.log('total inside updatePrice = ', total)
     dispatch({
-      type: 'UPDATE_PRICE',
+      type: CartActionKind.UPDATE_PRICE,
       payload: {
-        total
+        total,
       },
     })
   }
 
   const value = {
-    total: state.total,
-    products: state.products,
+    total: cartState.total,
+    products: cartState.products,
     addToCart,
     removeFromCart,
   }
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
 
-const useCart = (): CartContext => {
+const useCart = () => {
   const context = useContext(CartContext)
 
   if (context === undefined) {
     throw new Error('useCart must be used within ShopContext')
   }
-
   return context
 }
 
