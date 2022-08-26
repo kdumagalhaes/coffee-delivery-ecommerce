@@ -24,11 +24,10 @@ import {
 } from 'phosphor-react'
 import { QuantityStepper } from '../../components/QuantityStepper/QuantityStepper'
 
-// mock
-import CafeImgMock from '../../assets/images/coffee/expresso.svg'
-
 // utils
-import { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import useCart from '../../contexts/cart/CartContext'
+import { Products } from '../../utils/products'
 interface AddressViaApi {
   bairro: string
   cep: string
@@ -58,9 +57,9 @@ export function Checkout() {
     siafi: '',
     uf: '',
   })
-
+  const { products, removeFromCart, total } = useCart()
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
-  const postalCodePattern = '/^[0-9]{5}-[0-9]{3}$/'
+  const deliveryCost = 3.5
 
   const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const userInput = e.target.value
@@ -75,8 +74,12 @@ export function Checkout() {
       fetch(VIA_CEP_ENDPOINT)
         .then((response) => response.json())
         .then((json) => setAddresViaApi(json))
-        .catch((error) => setError('CEP não encontrado!'))
-  }, [postalCodeInputController])
+        .catch((error) => setError('CEP não encontrado! ', error))
+  }, [postalCode, postalCodeInputController])
+
+  const handleDeleteProduct = (product: Products): void => {
+    removeFromCart(product)
+  }
 
   return (
     <Container>
@@ -156,9 +159,9 @@ export function Checkout() {
                 readOnly
               />
               <CheckoutFormInput
-                id="state"
+                id="cartState"
                 type="text"
-                className="state"
+                className="cartState"
                 placeholder="UF"
                 required
                 max={2}
@@ -198,42 +201,30 @@ export function Checkout() {
         <SubTitle>Cafés selecionados</SubTitle>
         <OrderSummary>
           <ul className="product-list">
-            <SelectedProduct>
-              <img
-                src={CafeImgMock}
-                alt="product name"
-                className="product-image"
-              />
-              <div className="product-name-and-controls">
-                <p className="product-name">Expresso Tradicional</p>
-                <div className="controls">
-                  <QuantityStepper />
-                  <RemoveButton>
-                    <Trash size={16} color="#8047F8" />
-                    Remover
-                  </RemoveButton>
-                </div>
-              </div>
-              <strong className="price">R$ 9,90</strong>
-            </SelectedProduct>
-            <SelectedProduct>
-              <img
-                src={CafeImgMock}
-                alt="product name"
-                className="product-image"
-              />
-              <div className="product-name-and-controls">
-                <p className="product-name">Expresso Tradicional</p>
-                <div className="controls">
-                  <QuantityStepper />
-                  <RemoveButton>
-                    <Trash size={16} color="#8047F8" />
-                    Remover
-                  </RemoveButton>
-                </div>
-              </div>
-              <strong className="price">R$ 9,90</strong>
-            </SelectedProduct>
+            {products.map((product) => {
+              return (
+                <SelectedProduct key={product.id}>
+                  <img
+                    src={product.image}
+                    alt="product name"
+                    className="product-image"
+                  />
+                  <div className="product-name-and-controls">
+                    <p className="product-name">{product.name}</p>
+                    <div className="controls">
+                      <QuantityStepper />
+                      <RemoveButton
+                        onClick={() => handleDeleteProduct(product)}
+                      >
+                        <Trash size={16} color="#8047F8" />
+                        Remover
+                      </RemoveButton>
+                    </div>
+                  </div>
+                  <strong className="price">{product.price}</strong>
+                </SelectedProduct>
+              )
+            })}
           </ul>
           <BillingSummary>
             <ul className="billing">
@@ -242,7 +233,7 @@ export function Checkout() {
                   Total de itens
                 </p>
                 <span className="billing-items-value billing-value">
-                  R$ 29,70
+                  R$ {total}
                 </span>
               </li>
               <li>
@@ -253,7 +244,9 @@ export function Checkout() {
               </li>
               <li>
                 <p className="billing-total-title">Total</p>
-                <span className="billing-total-value">R$ 33,20</span>
+                <span className="billing-total-value">
+                  R$ {total + deliveryCost}
+                </span>
               </li>
             </ul>
             <PlaceOrderButton type="submit" form="checkout-form">

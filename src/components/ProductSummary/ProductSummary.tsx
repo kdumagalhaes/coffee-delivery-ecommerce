@@ -10,6 +10,7 @@ import {
 import { Products } from '../../utils/products'
 import { formatPrice } from '../../utils/format'
 import { QuantityStepper } from '../QuantityStepper/QuantityStepper'
+import useCart from '../../contexts/cart/CartContext'
 
 // assets
 import { ShoppingCartSimple } from 'phosphor-react'
@@ -39,8 +40,16 @@ export function ProductSummary({
   description,
   price,
   id,
+  inventory,
 }: ProductSummaryProps) {
   const convertedPrice = formatPrice(price)
+  const { addToCart } = useCart()
+
+  const handleAddToCart = (): void => {
+    const product = { name, price, image, types, description, id, inventory }
+
+    addToCart(product)
+  }
 
   let imageSrc = ''
 
@@ -113,7 +122,7 @@ export function ProductSummary({
           <span className="price">{convertedPrice}</span>
         </Pricing>
         <QuantityStepper />
-        <AddToCartButton>
+        <AddToCartButton onClick={handleAddToCart}>
           <ShoppingCartSimple size={22} weight="fill" color="#F3F2F2" />
         </AddToCartButton>
       </PricingAndAddToCart>

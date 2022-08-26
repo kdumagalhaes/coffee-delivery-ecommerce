@@ -18,6 +18,6 @@ export const Button = styled.button`
   align-items: center;
 `
 
-export const Quantity = styled.span`
+export const Steps = styled.span`
   color: ${(props) => props.theme['base-title']};
 `
