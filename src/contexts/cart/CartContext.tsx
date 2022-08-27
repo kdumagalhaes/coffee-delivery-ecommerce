@@ -44,8 +44,8 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     localStorage.setItem('@coffee-delivery:cart-cartState-1.0.0', stateJSON)
   }, [cartState])
 
-  const addToCart = (product: Products[]) => {
-    const updatedCart = cartState.products.concat(product)
+  const addToCart = (product: Products) => {
+    const updatedCart = [...cartState.products, product]
     updatePrice(updatedCart)
     dispatch({
       type: CartActionKind.ADD_TO_CART,

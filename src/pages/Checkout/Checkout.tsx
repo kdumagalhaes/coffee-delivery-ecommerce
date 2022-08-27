@@ -74,7 +74,7 @@ export function Checkout() {
       fetch(VIA_CEP_ENDPOINT)
         .then((response) => response.json())
         .then((json) => setAddresViaApi(json))
-        .catch((error) => setError('CEP não encontrado! ', error))
+        .catch((error) => setError(error))
   }, [postalCode, postalCodeInputController])
 
   const handleDeleteProduct = (product: Products): void => {
