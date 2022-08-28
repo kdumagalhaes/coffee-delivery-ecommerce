@@ -30,6 +30,7 @@ import Irlandes from '../../assets/images/coffee/irlandes.svg'
 import Latte from '../../assets/images/coffee/latte.svg'
 import Machiatto from '../../assets/images/coffee/machiatto.svg'
 import Mochaccino from '../../assets/images/coffee/mochaccino.svg'
+import useQuantityStepper from '../../contexts/quantity-stepper/QuantityStepperContext'
 
 interface ProductSummaryProps extends Products {}
 
@@ -41,12 +42,24 @@ export function ProductSummary({
   price,
   id,
   inventory,
+  quantity,
 }: ProductSummaryProps) {
   const convertedPrice = formatPrice(price)
+  const { updatedQuantity } = useQuantityStepper()
   const { addToCart } = useCart()
 
   const handleAddToCart = (): void => {
-    const product = { name, price, image, types, description, id, inventory }
+    quantity = updatedQuantity
+    const product = {
+      name,
+      price,
+      image,
+      types,
+      description,
+      id,
+      inventory,
+      quantity,
+    }
 
     addToCart(product)
   }
@@ -121,7 +134,7 @@ export function ProductSummary({
           <span className="currency">R$</span>
           <span className="price">{convertedPrice}</span>
         </Pricing>
-        <QuantityStepper />
+        <QuantityStepper initialQuantity={quantity} />
         <AddToCartButton onClick={handleAddToCart}>
           <ShoppingCartSimple size={22} weight="fill" color="#F3F2F2" />
         </AddToCartButton>

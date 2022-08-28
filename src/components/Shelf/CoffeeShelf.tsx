@@ -19,6 +19,7 @@ export function Shelf() {
               image={product.image}
               inventory={product.inventory}
               price={product.price}
+              quantity={product.quantity}
               key={product.id}
             />
           )

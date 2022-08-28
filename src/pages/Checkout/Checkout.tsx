@@ -212,7 +212,7 @@ export function Checkout() {
                   <div className="product-name-and-controls">
                     <p className="product-name">{product.name}</p>
                     <div className="controls">
-                      <QuantityStepper />
+                      <QuantityStepper initialQuantity={product.quantity} />
                       <RemoveButton
                         onClick={() => handleDeleteProduct(product)}
                       >
