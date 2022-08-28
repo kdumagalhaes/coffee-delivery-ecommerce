@@ -1,30 +1,48 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
-
-interface QuantityStepperContextKind {
-  quantity: number
-  setQuantity: (quantity: number) => void
-}
-
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useReducer,
+} from 'react'
+import {
+  quantityStepperReducer,
+  QuantityStepperReducerActionKind,
+} from '../../reducers/quantityStepperReducer'
+import { Products } from '../../utils/products'
 interface QuantityStepperProviderProps {
   children: ReactNode
+}
+interface QuantityStepperContextKind {
+  updateProductQuantity: (quantity: number) => void
+  updatedQuantity: number
+}
+
+const initialState = {
+  updatedQuantity: 1,
 }
 
 const QuantityStepperContext = createContext({} as QuantityStepperContextKind)
 
-const useQuantityStepperContext = (): QuantityStepperContextKind => {
-  const context = useContext(QuantityStepperContext)
-  return context
-}
-
-const QuantityStepperProvider = ({
+export const QuantityStepperProvider = ({
   children,
 }: QuantityStepperProviderProps) => {
-  const quantityStepperInitialValue = 1
-  const [quantity, setQuantity] = useState(quantityStepperInitialValue)
+  const [quantityStepperState, dispatch] = useReducer(
+    quantityStepperReducer,
+    initialState,
+  )
+
+  const updateProductQuantity = ( quantity: number ) => {
+    dispatch({
+      type: QuantityStepperReducerActionKind.UPDATE_PRODUCT_QUANTITY,
+      payload: {
+        updatedQuantity: quantity
+      },
+    })
+  }
 
   const QuantityStepperValue = {
-    quantity,
-    setQuantity,
+    updatedQuantity: quantityStepperState.updatedQuantity,
+    updateProductQuantity
   }
 
   return (
@@ -34,4 +52,15 @@ const QuantityStepperProvider = ({
   )
 }
 
-export { useQuantityStepperContext, QuantityStepperProvider }
+const useQuantityStepper = () => {
+  const context = useContext(QuantityStepperContext)
+
+  if (context === undefined) {
+    throw new Error(
+      'useQuantityStepper must be used within QuantityStepperContext',
+    )
+  }
+  return context
+}
+
+export default useQuantityStepper

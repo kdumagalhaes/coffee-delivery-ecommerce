@@ -11,20 +11,21 @@ import { Products } from '../../utils/products'
 interface CartProviderProps {
   children: ReactNode
 }
-
-const initialState = {
-  total: 0,
-  products: [],
-}
-
-interface initialStateKind {
+interface CartContextKind {
   total: number
   products: Products[]
   addToCart: (product: Products) => void
   removeFromCart: (product: Products) => void
+  updateQuantity: (product: Products) => void
 }
 
-const CartContext = createContext({} as initialStateKind)
+const initialState = {
+  total: 0,
+  products: [],
+  quantity: 1,
+}
+
+const CartContext = createContext({} as CartContextKind)
 
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [cartState, dispatch] = useReducer(cartReducer, initialState, () => {
@@ -44,9 +45,14 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     localStorage.setItem('@coffee-delivery:cart-cartState-1.0.0', stateJSON)
   }, [cartState])
 
+  // setar quantidade
+  // checar a quantidade setada no quantity stepper
+  // multiplicar a quantidade do quantity stepper pelo preço
+
   const addToCart = (product: Products) => {
     const updatedCart = [...cartState.products, product]
     updatePrice(updatedCart)
+    console.log('updatedCart = ', updatedCart)
     dispatch({
       type: CartActionKind.ADD_TO_CART,
       payload: {
@@ -71,11 +77,19 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const updatePrice = (products: Products[]) => {
     let total = 0
     products.forEach((product) => (total += product.price))
-    console.log('total inside updatePrice = ', total)
     dispatch({
       type: CartActionKind.UPDATE_PRICE,
       payload: {
         total,
+      },
+    })
+  }
+
+  const updateQuantity = (product: Products) => {
+    dispatch({
+      type: CartActionKind.UPDATE_QUANTITY,
+      payload: {
+        quantity: product.quantity,
       },
     })
   }
@@ -85,6 +99,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     products: cartState.products,
     addToCart,
     removeFromCart,
+    updateQuantity,
   }
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
@@ -93,7 +108,7 @@ const useCart = () => {
   const context = useContext(CartContext)
 
   if (context === undefined) {
-    throw new Error('useCart must be used within ShopContext')
+    throw new Error('useCart must be used within CartContext')
   }
   return context
 }
