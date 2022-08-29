@@ -28,6 +28,7 @@ import { QuantityStepper } from '../../components/QuantityStepper/QuantitySteppe
 import React, { useState, useEffect } from 'react'
 import useCart from '../../contexts/cart/CartContext'
 import { Products } from '../../utils/products'
+import { formatPrice } from '../../utils/format'
 interface AddressViaApi {
   bairro: string
   cep: string
@@ -59,7 +60,15 @@ export function Checkout() {
   })
   const { products, removeFromCart, total } = useCart()
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
-  const deliveryCost = 3.5
+
+  let deliveryCost = 0
+  if (products.length) {
+    deliveryCost = 3.5
+  }
+
+  const formatedTotal = formatPrice(total)
+  const formatedDeliveryCost = formatPrice(deliveryCost)
+  const totalWithDelivery = total + deliveryCost
 
   const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const userInput = e.target.value
@@ -221,7 +230,9 @@ export function Checkout() {
                       </RemoveButton>
                     </div>
                   </div>
-                  <strong className="price">{product.price}</strong>
+                  <strong className="price">
+                    R$ {formatPrice(product.price)}
+                  </strong>
                 </SelectedProduct>
               )
             })}
@@ -233,19 +244,19 @@ export function Checkout() {
                   Total de itens
                 </p>
                 <span className="billing-items-value billing-value">
-                  R$ {total}
+                  R$ {formatedTotal}
                 </span>
               </li>
               <li>
                 <p className="billing-delivery-title billing-title">Entrega</p>
                 <span className="billing-delivery-value billing-value">
-                  R$ 3,50
+                  R$ {formatedDeliveryCost}
                 </span>
               </li>
               <li>
                 <p className="billing-total-title">Total</p>
                 <span className="billing-total-value">
-                  R$ {total + deliveryCost}
+                  R$ {formatPrice(totalWithDelivery)}
                 </span>
               </li>
             </ul>

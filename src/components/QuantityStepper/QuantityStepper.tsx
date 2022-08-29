@@ -7,7 +7,7 @@ interface QuantityStepperProps {
 
 export function QuantityStepper({ initialQuantity }: QuantityStepperProps) {
   const [step, setStep] = useState(initialQuantity)
-  const {updateProductQuantity} = useQuantityStepper()
+  const { updateProductQuantity } = useQuantityStepper()
   const handleIncreaseQuantity = (): void => {
     setStep(step + 1)
     updateProductQuantity(step + 1)
@@ -19,7 +19,6 @@ export function QuantityStepper({ initialQuantity }: QuantityStepperProps) {
     }
     setStep(step === 0 ? step : step - 1)
     updateProductQuantity(step === 0 ? step : step - 1)
-
   }
 
   return (

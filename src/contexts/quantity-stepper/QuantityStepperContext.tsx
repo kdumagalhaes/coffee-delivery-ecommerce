@@ -1,14 +1,8 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useReducer,
-} from 'react'
+import { createContext, ReactNode, useContext, useReducer } from 'react'
 import {
   quantityStepperReducer,
   QuantityStepperReducerActionKind,
 } from '../../reducers/quantityStepperReducer'
-import { Products } from '../../utils/products'
 interface QuantityStepperProviderProps {
   children: ReactNode
 }
@@ -31,18 +25,18 @@ export const QuantityStepperProvider = ({
     initialState,
   )
 
-  const updateProductQuantity = ( quantity: number ) => {
+  const updateProductQuantity = (quantity: number) => {
     dispatch({
       type: QuantityStepperReducerActionKind.UPDATE_PRODUCT_QUANTITY,
       payload: {
-        updatedQuantity: quantity
+        updatedQuantity: quantity,
       },
     })
   }
 
   const QuantityStepperValue = {
     updatedQuantity: quantityStepperState.updatedQuantity,
-    updateProductQuantity
+    updateProductQuantity,
   }
 
   return (
