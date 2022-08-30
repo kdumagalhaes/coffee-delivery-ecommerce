@@ -34,9 +34,22 @@ export const QuantityStepperProvider = ({
     })
   }
 
+  const updatePrice = (price: number, quantity: number) => {
+    let total = 0
+    total += product.price * product.quantity
+
+    dispatch({
+      type: CartActionKind.UPDATE_PRICE,
+      payload: {
+        total,
+      },
+    })
+  }
+
   const QuantityStepperValue = {
     updatedQuantity: quantityStepperState.updatedQuantity,
     updateProductQuantity,
+    updatePrice,
   }
 
   return (

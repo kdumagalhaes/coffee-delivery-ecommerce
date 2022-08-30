@@ -9,6 +9,7 @@ export enum CartActionKind {
 }
 interface CartState {
   products: Products[]
+  totalItems: number
   total: number
   quantity: number
 }
@@ -17,7 +18,10 @@ type Action =
   | { type: CartActionKind.ADD_TO_CART; payload: { products: Products[] } }
   | { type: CartActionKind.REMOVE_FROM_CART; payload: { products: Products[] } }
   | { type: CartActionKind.UPDATE_INVENTORY; payload: { products: Products[] } }
-  | { type: CartActionKind.UPDATE_PRICE; payload: { total: number } }
+  | {
+      type: CartActionKind.UPDATE_PRICE
+      payload: { total: number; totalItems: number }
+    }
   | { type: CartActionKind.UPDATE_QUANTITY; payload: { quantity: number } }
 
 export const cartReducer = (state: CartState, action: Action) => {
@@ -38,6 +42,7 @@ export const cartReducer = (state: CartState, action: Action) => {
       return {
         ...state,
         total: payload.total,
+        totalItems: payload.totalItems,
       }
     case CartActionKind.UPDATE_INVENTORY:
       return {

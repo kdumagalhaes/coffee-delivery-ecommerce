@@ -13,6 +13,7 @@ interface CartProviderProps {
 }
 interface CartContextKind {
   total: number
+  totalItems: number
   products: Products[]
   addToCart: (product: Products) => void
   removeFromCart: (product: Products) => void
@@ -21,6 +22,7 @@ interface CartContextKind {
 
 const initialState = {
   total: 0,
+  totalItems: 0,
   products: [],
   quantity: 1,
 }
@@ -44,10 +46,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
     localStorage.setItem('@coffee-delivery:cart-cartState-1.0.0', stateJSON)
   }, [cartState])
-
-  // setar quantidade
-  // checar a quantidade setada no quantity stepper
-  // multiplicar a quantidade do quantity stepper pelo preço
 
   const addToCart = (product: Products) => {
     const updatedCart = [...cartState.products, product]
@@ -74,16 +72,21 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     })
   }
 
-  const updatePrice = (products: Products[]) => {
-    let total = 0
-    products.forEach((product) => (total += product.price))
-    dispatch({
-      type: CartActionKind.UPDATE_PRICE,
-      payload: {
-        total,
-      },
-    })
-  }
+  // const updatePrice = (products: Products[]) => {
+  //   let total = 0
+  //   let totalItems = 0
+  //   // const selectedProduct = products.find((product) => product)!
+  //   // totalItems =  selectedProduct.quantity * selectedProduct.price
+  //   products.forEach((product) => (total += product.price * product.quantity))
+
+  //   dispatch({
+  //     type: CartActionKind.UPDATE_PRICE,
+  //     payload: {
+  //       total,
+  //       totalItems
+  //     },
+  //   })
+  // }
 
   const updateQuantity = (product: Products) => {
     dispatch({
@@ -97,6 +100,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const value = {
     total: cartState.total,
     products: cartState.products,
+    totalItems: cartState.totalItems,
     addToCart,
     removeFromCart,
     updateQuantity,

@@ -44,7 +44,7 @@ export function ProductSummary({
   inventory,
   quantity,
 }: ProductSummaryProps) {
-  const convertedPrice = formatPrice(price)
+  const formatedPrice = formatPrice(price)
   const { updatedQuantity } = useQuantityStepper()
   const { addToCart } = useCart()
 
@@ -132,7 +132,7 @@ export function ProductSummary({
       <PricingAndAddToCart>
         <Pricing>
           <span className="currency">R$</span>
-          <span className="price">{convertedPrice}</span>
+          <span className="price">{formatedPrice}</span>
         </Pricing>
         <QuantityStepper initialQuantity={quantity} />
         <AddToCartButton onClick={handleAddToCart}>

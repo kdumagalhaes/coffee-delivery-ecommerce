@@ -58,7 +58,7 @@ export function Checkout() {
     siafi: '',
     uf: '',
   })
-  const { products, removeFromCart, total } = useCart()
+  const { products, removeFromCart, total, totalItems } = useCart()
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
 
   let deliveryCost = 0
@@ -230,9 +230,7 @@ export function Checkout() {
                       </RemoveButton>
                     </div>
                   </div>
-                  <strong className="price">
-                    R$ {formatPrice(product.price)}
-                  </strong>
+                  <strong className="price">R$ {totalItems}</strong>
                 </SelectedProduct>
               )
             })}
