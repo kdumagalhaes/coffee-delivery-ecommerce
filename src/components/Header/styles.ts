@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 export const Container = styled.header`
-  max-width: 70rem;
+  max-width: 72.5rem;
   margin: 0 auto;
   height: 7.4rem;
-  padding: 32px 0;
+  padding: 32px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,4 +24,8 @@ export const Location = styled.span`
   gap: 0.25rem;
   color: ${(props) => props.theme['purple-dark']};
   border-radius: 6px;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 `
