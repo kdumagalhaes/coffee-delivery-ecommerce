@@ -26,8 +26,8 @@ import { QuantityStepper } from '../../components/QuantityStepper/QuantitySteppe
 
 // utils
 import React, { useState, useEffect } from 'react'
-import useCart from '../../contexts/cart/CartContext'
-import { Products } from '../../utils/products'
+import useCart from '../../store/contexts/cart/CartContext'
+import { Product } from '../../mocks/products'
 import { formatPrice } from '../../utils/format'
 interface AddressViaApi {
   bairro: string
@@ -58,17 +58,28 @@ export function Checkout() {
     siafi: '',
     uf: '',
   })
-  const { products, removeFromCart, total, totalItems } = useCart()
-  const postalCodeInputController = postalCode.length === 8 ? postalCode : null
 
-  let deliveryCost = 0
-  if (products.length) {
-    deliveryCost = 3.5
+  const { cartItems, removeFromCart, updateItemQuantity } = useCart()
+
+  const handleDeleteProduct = (product: Product): void => {
+    removeFromCart(product)
   }
 
-  const formatedTotal = formatPrice(total)
+  const itemQuantity = cartItems.map(({ quantity }) => quantity)[0]
+  const productId = cartItems.map(({ product }) => product.id)[0]
+  const [productQuantity, setProductQuantity] = useState(itemQuantity)
+
+  // manage delivery cost
+  const deliveryCost = cartItems.length > 0 ? 3.5 : 0
+
+  // format prices
+  const formatedTotal = formatPrice(10)
   const formatedDeliveryCost = formatPrice(deliveryCost)
-  const totalWithDelivery = total + deliveryCost
+  const totalWithDelivery = 10 + deliveryCost
+  const formatedTotalWithDelivery = formatPrice(totalWithDelivery)
+
+  // set address by postal code
+  const postalCodeInputController = postalCode.length === 8 ? postalCode : null
 
   const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const userInput = e.target.value
@@ -85,10 +96,6 @@ export function Checkout() {
         .then((json) => setAddresViaApi(json))
         .catch((error) => setError(error))
   }, [postalCode, postalCodeInputController])
-
-  const handleDeleteProduct = (product: Products): void => {
-    removeFromCart(product)
-  }
 
   return (
     <Container>
@@ -210,7 +217,7 @@ export function Checkout() {
         <SubTitle>Cafés selecionados</SubTitle>
         <OrderSummary>
           <ul className="product-list">
-            {products.map((product) => {
+            {cartItems.map(({ product, quantity }) => {
               return (
                 <SelectedProduct key={product.id}>
                   <img
@@ -221,7 +228,11 @@ export function Checkout() {
                   <div className="product-name-and-controls">
                     <p className="product-name">{product.name}</p>
                     <div className="controls">
-                      <QuantityStepper initialQuantity={product.quantity} />
+                      <QuantityStepper
+                        quantity={productQuantity}
+                        productId={product.id}
+                        setQuantity={setProductQuantity}
+                      />
                       <RemoveButton
                         onClick={() => handleDeleteProduct(product)}
                       >
@@ -230,7 +241,9 @@ export function Checkout() {
                       </RemoveButton>
                     </div>
                   </div>
-                  <strong className="price">R$ {totalItems}</strong>
+                  <strong className="price">
+                    R$ {product.price * quantity}
+                  </strong>
                 </SelectedProduct>
               )
             })}
@@ -254,7 +267,7 @@ export function Checkout() {
               <li>
                 <p className="billing-total-title">Total</p>
                 <span className="billing-total-value">
-                  R$ {formatPrice(totalWithDelivery)}
+                  R$ {formatedTotalWithDelivery}
                 </span>
               </li>
             </ul>

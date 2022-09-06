@@ -1,19 +1,18 @@
 import { CartButton, ItemQuantity } from './styles'
-import useCart from '../../contexts/cart/CartContext'
+import useCart from '../../store/contexts/cart/CartContext'
 
 // assets
 import { ShoppingCart } from 'phosphor-react'
-import { useState } from 'react'
 
 export function MiniCart() {
-  const { products } = useCart()
+  const { cartItems } = useCart()
 
   return (
     <CartButton href="/checkout">
-      {products.length === 0 ? (
+      {cartItems.length === 0 ? (
         ''
       ) : (
-        <ItemQuantity>{products.length}</ItemQuantity>
+        <ItemQuantity>{cartItems.length}</ItemQuantity>
       )}
       <ShoppingCart size={22} weight="fill" color={'#C47F17'} />
     </CartButton>

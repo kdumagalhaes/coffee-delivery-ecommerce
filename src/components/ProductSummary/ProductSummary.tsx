@@ -7,10 +7,10 @@ import {
 } from './styles'
 
 // utils
-import { Products } from '../../utils/products'
+import { Product } from '../../mocks/products'
 import { formatPrice } from '../../utils/format'
 import { QuantityStepper } from '../QuantityStepper/QuantityStepper'
-import useCart from '../../contexts/cart/CartContext'
+import useCart from '../../store/contexts/cart/CartContext'
 
 // assets
 import { ShoppingCartSimple } from 'phosphor-react'
@@ -30,9 +30,9 @@ import Irlandes from '../../assets/images/coffee/irlandes.svg'
 import Latte from '../../assets/images/coffee/latte.svg'
 import Machiatto from '../../assets/images/coffee/machiatto.svg'
 import Mochaccino from '../../assets/images/coffee/mochaccino.svg'
-import useQuantityStepper from '../../contexts/quantity-stepper/QuantityStepperContext'
+import { useState } from 'react'
 
-interface ProductSummaryProps extends Products {}
+interface ProductSummaryProps extends Product {}
 
 export function ProductSummary({
   name,
@@ -42,14 +42,12 @@ export function ProductSummary({
   price,
   id,
   inventory,
-  quantity,
 }: ProductSummaryProps) {
   const formatedPrice = formatPrice(price)
-  const { updatedQuantity } = useQuantityStepper()
   const { addToCart } = useCart()
+  const [productQuantity, setProductQuantity] = useState(1)
 
   const handleAddToCart = (): void => {
-    quantity = updatedQuantity
     const product = {
       name,
       price,
@@ -58,10 +56,9 @@ export function ProductSummary({
       description,
       id,
       inventory,
-      quantity,
     }
 
-    addToCart(product)
+    addToCart(product, productQuantity)
   }
 
   let imageSrc = ''
@@ -134,7 +131,11 @@ export function ProductSummary({
           <span className="currency">R$</span>
           <span className="price">{formatedPrice}</span>
         </Pricing>
-        <QuantityStepper initialQuantity={quantity} />
+        <QuantityStepper
+          setQuantity={setProductQuantity}
+          productId={id}
+          quantity={productQuantity}
+        />
         <AddToCartButton onClick={handleAddToCart}>
           <ShoppingCartSimple size={22} weight="fill" color="#F3F2F2" />
         </AddToCartButton>

@@ -1,30 +1,27 @@
-import { useState } from 'react'
-import useQuantityStepper from '../../contexts/quantity-stepper/QuantityStepperContext'
 import { Button, Container, Steps } from './styles'
 interface QuantityStepperProps {
-  initialQuantity: number
+  productId: string
+  quantity: number
+  setQuantity: (quantity: number) => void
 }
 
-export function QuantityStepper({ initialQuantity }: QuantityStepperProps) {
-  const [step, setStep] = useState(initialQuantity)
-  const { updateProductQuantity } = useQuantityStepper()
+export function QuantityStepper({
+  productId,
+  quantity,
+  setQuantity,
+}: QuantityStepperProps) {
   const handleIncreaseQuantity = (): void => {
-    setStep(step + 1)
-    updateProductQuantity(step + 1)
+    setQuantity(quantity + 1)
   }
 
   const handleDecreaseQuantity = (): void => {
-    if (step === 1 && step === 1) {
-      return
-    }
-    setStep(step === 0 ? step : step - 1)
-    updateProductQuantity(step === 0 ? step : step - 1)
+    setQuantity(quantity === 1 ? quantity : quantity - 1)
   }
 
   return (
     <Container>
       <Button onClick={handleDecreaseQuantity}>-</Button>
-      <Steps>{step}</Steps>
+      <Steps>{quantity}</Steps>
       <Button onClick={handleIncreaseQuantity}>+</Button>
     </Container>
   )
