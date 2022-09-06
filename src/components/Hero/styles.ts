@@ -5,6 +5,10 @@ import HeroBackgroundImg from '../../assets/images/Background.png'
 
 export const Container = styled.div`
   background-image: url(${HeroBackgroundImg});
+
+  @media (max-width: 480px) {
+    background: transparent;
+  }
 `
 export const Wrapper = styled.div`
   max-width: 72.5rem;
@@ -16,6 +20,8 @@ export const Wrapper = styled.div`
 
   @media (max-width: 480px) {
     align-items: flex-start;
+    height: 100%;
+    margin-bottom: 2rem;
   }
 
   .flex-hor {
