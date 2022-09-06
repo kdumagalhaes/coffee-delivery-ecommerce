@@ -1,9 +1,18 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  max-width: 70rem;
+  max-width: 72.5rem;
+  padding: 0 20px;
   margin: 2.5rem auto 10rem auto;
   display: flex;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+
+    .right-blocks {
+      margin-top: 2rem;
+    }
+  }
 `
 
 const BlockLayout = styled.div`
@@ -16,6 +25,10 @@ const BlockLayout = styled.div`
 
   &:last-child {
     margin-bottom: 0;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
   }
 `
 
@@ -51,6 +64,10 @@ export const CheckoutForm = styled.form`
   background-color: ${(props) => props.theme['base-card']};
   margin-bottom: 0.85rem;
 
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -64,12 +81,20 @@ export const CheckoutForm = styled.form`
   .flex-hor {
     display: flex;
     gap: 1rem;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+    }
   }
 
   .postal-code,
   .number,
   .neighbourhood {
     max-width: 12.5rem;
+
+    @media (max-width: 480px) {
+      max-width: 100%;
+    }
   }
 
   .cartState {
@@ -103,6 +128,10 @@ export const Installments = styled(BlockLayout)`
   .installments-options {
     display: flex;
     gap: 0.75rem;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+    }
   }
 `
 
@@ -114,6 +143,10 @@ export const OrderSummary = styled.div`
   border-bottom-left-radius: 36px;
   border-bottom-right-radius: 6px;
   background-color: ${(props) => props.theme['base-card']};
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `
 
 export const SubTitle = styled.h3`
@@ -155,11 +188,19 @@ export const SelectedProduct = styled.li`
 
   .product-name {
     color: ${(props) => props.theme['base-subtitle']};
+
+    @media (max-width: 480px) {
+      margin-bottom: 0.8rem;
+    }
   }
 
   .product-image {
     max-width: 4rem;
     max-height: 4rem;
+
+    @media (max-width: 480px) {
+      display: none;
+    }
   }
 
   .controls {
