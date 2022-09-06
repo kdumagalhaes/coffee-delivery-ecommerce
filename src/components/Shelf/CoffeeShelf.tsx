@@ -1,7 +1,9 @@
 import { Container, ShelfGrid } from './styles'
 
 // products api
-import { products } from '../../utils/products'
+import { products } from '../../mocks/products'
+
+// components
 import { ProductSummary } from '../ProductSummary/ProductSummary'
 
 export function Shelf() {
@@ -19,7 +21,6 @@ export function Shelf() {
               image={product.image}
               inventory={product.inventory}
               price={product.price}
-              quantity={product.quantity}
               key={product.id}
             />
           )
