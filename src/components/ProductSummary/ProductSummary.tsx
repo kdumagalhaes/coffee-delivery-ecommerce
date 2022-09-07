@@ -67,59 +67,10 @@ export function ProductSummary({
     successNotification()
   }
 
-  let imageSrc = ''
-
-  switch (image) {
-    case 'coffee-1':
-      imageSrc = Expresso
-      break
-    case 'coffee-2':
-      imageSrc = ExpressoAmericano
-      break
-    case 'coffee-3':
-      imageSrc = ExpressoCremoso
-      break
-    case 'coffee-4':
-      imageSrc = CafeGelado
-      break
-    case 'coffee-5':
-      imageSrc = CafeComLeite
-      break
-    case 'coffee-6':
-      imageSrc = Latte
-      break
-    case 'coffee-7':
-      imageSrc = Capuccino
-      break
-    case 'coffee-8':
-      imageSrc = Machiatto
-      break
-    case 'coffee-9':
-      imageSrc = Mochaccino
-      break
-    case 'coffee-10':
-      imageSrc = ChocolateQuente
-      break
-    case 'coffee-11':
-      imageSrc = Cubano
-      break
-    case 'coffee-12':
-      imageSrc = Havaiano
-      break
-    case 'coffee-13':
-      imageSrc = Arabe
-      break
-    case 'coffee-14':
-      imageSrc = Irlandes
-      break
-    default:
-      break
-  }
-
   return (
     <Container>
       <ContentContainer>
-        <img className="image" src={imageSrc} alt={name} />
+        <img className="image" src={image} alt={name} />
         <div className="types">
           {types.map((type, index) => {
             return (
