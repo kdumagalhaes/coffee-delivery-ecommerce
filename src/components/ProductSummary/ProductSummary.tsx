@@ -17,21 +17,6 @@ import 'react-toastify/dist/ReactToastify.css'
 // assets
 import { ShoppingCartSimple } from 'phosphor-react'
 
-// thumbs
-import Arabe from '../../assets/images/coffee/arabe.svg'
-import CafeComLeite from '../../assets/images/coffee/cafe-com-leite.svg'
-import CafeGelado from '../../assets/images/coffee/cafe-gelado.svg'
-import Capuccino from '../../assets/images/coffee/capuccino.svg'
-import ChocolateQuente from '../../assets/images/coffee/chocolate-quente.svg'
-import Cubano from '../../assets/images/coffee/cubano.svg'
-import ExpressoAmericano from '../../assets/images/coffee/expresso-americano.svg'
-import ExpressoCremoso from '../../assets/images/coffee/expresso-cremoso.svg'
-import Expresso from '../../assets/images/coffee/expresso.svg'
-import Havaiano from '../../assets/images/coffee/havaiano.svg'
-import Irlandes from '../../assets/images/coffee/irlandes.svg'
-import Latte from '../../assets/images/coffee/latte.svg'
-import Machiatto from '../../assets/images/coffee/machiatto.svg'
-import Mochaccino from '../../assets/images/coffee/mochaccino.svg'
 import { useState } from 'react'
 
 interface ProductSummaryProps extends Product {}
@@ -97,7 +82,7 @@ export function ProductSummary({
           <ShoppingCartSimple size={22} weight="fill" color="#F3F2F2" />
         </AddToCartButton>
       </PricingAndAddToCart>
-      <ToastContainer autoClose={1000} />
+      <ToastContainer autoClose={1000} position="bottom-right" />
     </Container>
   )
 }
