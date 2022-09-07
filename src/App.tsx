@@ -15,7 +15,7 @@ function App() {
         </BrowserRouter>
       </CartProvider>
       <GlobalStyles />
-      <ToastContainer autoClose={1250} position="bottom-right" />
+      <ToastContainer autoClose={1600} position="bottom-right" />
     </ThemeProvider>
   )
 }

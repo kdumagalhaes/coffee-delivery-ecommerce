@@ -34,8 +34,10 @@ export function ProductSummary({
   const { addToCart } = useCart()
   const [productQuantity, setProductQuantity] = useState(1)
 
+  const textQuantity = productQuantity > 1 ? 'adicionados' : 'adicionado'
+
   const successNotification = () =>
-    toast.success(`${name} adicionado ao carrinho!`)
+    toast.success(`${productQuantity} ${name} ${textQuantity} ao carrinho!`)
 
   const handleAddToCart = (): void => {
     const product = {
