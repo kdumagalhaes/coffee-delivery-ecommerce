@@ -4,6 +4,7 @@ import { defaultTheme } from './styles/themes/default'
 import { Router } from './routes/Router'
 import { BrowserRouter } from 'react-router-dom'
 import { CartProvider } from './store/contexts/cart/CartContext'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         </BrowserRouter>
       </CartProvider>
       <GlobalStyles />
+      <ToastContainer autoClose={1250} position="bottom-right" />
     </ThemeProvider>
   )
 }

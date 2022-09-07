@@ -11,7 +11,7 @@ import { Product } from '../../mocks/products'
 import { formatPrice } from '../../utils/format'
 import { QuantityStepper } from '../QuantityStepper/QuantityStepper'
 import useCart from '../../store/contexts/cart/CartContext'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 // assets
@@ -82,7 +82,6 @@ export function ProductSummary({
           <ShoppingCartSimple size={22} weight="fill" color="#F3F2F2" />
         </AddToCartButton>
       </PricingAndAddToCart>
-      <ToastContainer autoClose={1000} position="bottom-right" />
     </Container>
   )
 }
