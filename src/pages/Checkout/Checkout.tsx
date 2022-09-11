@@ -66,9 +66,7 @@ export function Checkout() {
   }
 
   const itemQuantity = cartItems.map(({ quantity }) => quantity)[0]
-  const productId = cartItems.map(({ product }) => product.id)[0]
   const [productQuantity, setProductQuantity] = useState(itemQuantity)
-
   // manage delivery cost
   const deliveryCost = cartItems.length > 0 ? 3.5 : 0
 
@@ -242,7 +240,7 @@ export function Checkout() {
                     </div>
                   </div>
                   <strong className="price">
-                    R$ {product.price * quantity}
+                    R$ {formatPrice(product.price * quantity)}
                   </strong>
                 </SelectedProduct>
               )
