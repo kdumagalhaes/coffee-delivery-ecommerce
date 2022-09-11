@@ -67,13 +67,19 @@ export function Checkout() {
 
   const itemQuantity = cartItems.map(({ quantity }) => quantity)[0]
   const [productQuantity, setProductQuantity] = useState(itemQuantity)
+
   // manage delivery cost
   const deliveryCost = cartItems.length > 0 ? 3.5 : 0
 
   // format prices
-  const formatedTotal = formatPrice(10)
+  const totalItemsPrices = cartItems.reduce(
+    (prevVal, elem) => prevVal + elem.product.price,
+    0,
+  )
+  const total = totalItemsPrices * itemQuantity || 0
+  const formatedTotal = formatPrice(total)
   const formatedDeliveryCost = formatPrice(deliveryCost)
-  const totalWithDelivery = 10 + deliveryCost
+  const totalWithDelivery = total + deliveryCost
   const formatedTotalWithDelivery = formatPrice(totalWithDelivery)
 
   // set address by postal code
