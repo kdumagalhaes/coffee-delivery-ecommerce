@@ -242,7 +242,7 @@ export function Checkout() {
                     </div>
                   </div>
                   <strong className="price">
-                    R$ {product.price * quantity}
+                    R$ {formatPrice(product.price * quantity)}
                   </strong>
                 </SelectedProduct>
               )
