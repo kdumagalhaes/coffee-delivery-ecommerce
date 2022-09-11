@@ -11,6 +11,7 @@ import {
   BlockHeader,
   InstallmentButton,
   CheckoutFormInput,
+  EmptyCartMessage,
 } from './styles'
 
 // assets
@@ -70,6 +71,10 @@ export function Checkout() {
 
   // manage delivery cost
   const deliveryCost = cartItems.length > 0 ? 3.5 : 0
+
+  const foo = cartItems.map(({ product, quantity }) =>
+    console.log('quantity = ', quantity, 'product = ', product),
+  )
 
   // format prices
   const totalItemsPrices = cartItems.reduce(
@@ -221,36 +226,42 @@ export function Checkout() {
         <SubTitle>Cafés selecionados</SubTitle>
         <OrderSummary>
           <ul className="product-list">
-            {cartItems.map(({ product, quantity }) => {
-              return (
-                <SelectedProduct key={product.id}>
-                  <img
-                    src={product.image}
-                    alt="product name"
-                    className="product-image"
-                  />
-                  <div className="product-name-and-controls">
-                    <p className="product-name">{product.name}</p>
-                    <div className="controls">
-                      <QuantityStepper
-                        quantity={productQuantity}
-                        productId={product.id}
-                        setQuantity={setProductQuantity}
-                      />
-                      <RemoveButton
-                        onClick={() => handleDeleteProduct(product)}
-                      >
-                        <Trash size={16} color="#8047F8" />
-                        <span className="btn-text">Remover</span>
-                      </RemoveButton>
+            {cartItems.length === 0 ? (
+              <EmptyCartMessage>
+                Você ainda não adicionou produtos no carrinho.
+              </EmptyCartMessage>
+            ) : (
+              cartItems.map(({ product, quantity }) => {
+                return (
+                  <SelectedProduct key={product.id}>
+                    <img
+                      src={product.image}
+                      alt="product name"
+                      className="product-image"
+                    />
+                    <div className="product-name-and-controls">
+                      <p className="product-name">{product.name}</p>
+                      <div className="controls">
+                        <QuantityStepper
+                          quantity={productQuantity}
+                          productId={product.id}
+                          setQuantity={setProductQuantity}
+                        />
+                        <RemoveButton
+                          onClick={() => handleDeleteProduct(product)}
+                        >
+                          <Trash size={16} color="#8047F8" />
+                          <span className="btn-text">Remover</span>
+                        </RemoveButton>
+                      </div>
                     </div>
-                  </div>
-                  <strong className="price">
-                    R$ {formatPrice(product.price * quantity)}
-                  </strong>
-                </SelectedProduct>
-              )
-            })}
+                    <strong className="price">
+                      R$ {formatPrice(product.price * quantity)}
+                    </strong>
+                  </SelectedProduct>
+                )
+              })
+            )}
           </ul>
           <BillingSummary>
             <ul className="billing">

@@ -294,3 +294,11 @@ export const InstallmentButton = styled.button`
     background-color: ${(props) => props.theme['purple-light']};
   }
 `
+export const EmptyCartMessage = styled.li`
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-style: italic;
+  font-weight: 700;
+  color: ${(props) => props.theme['base-label']};
+`
