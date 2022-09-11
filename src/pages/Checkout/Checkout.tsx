@@ -241,7 +241,7 @@ export function Checkout() {
                         onClick={() => handleDeleteProduct(product)}
                       >
                         <Trash size={16} color="#8047F8" />
-                        Remover
+                        <span className="btn-text">Remover</span>
                       </RemoveButton>
                     </div>
                   </div>
