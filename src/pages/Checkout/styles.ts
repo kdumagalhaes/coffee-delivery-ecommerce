@@ -171,6 +171,16 @@ export const RemoveButton = styled.button`
   &:hover {
     background-color: ${(props) => props.theme['base-hover']};
   }
+
+  .btn-text {
+    display: block;
+  }
+
+  @media (max-width: 480px) {
+    .btn-text {
+      display: none;
+    }
+  }
 `
 
 export const SelectedProduct = styled.li`
