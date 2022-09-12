@@ -29,6 +29,7 @@ export function ProductSummary({
   price,
   id,
   inventory,
+  quantity,
 }: ProductSummaryProps) {
   const formatedPrice = formatPrice(price)
   const { addToCart } = useCart()
@@ -48,9 +49,10 @@ export function ProductSummary({
       description,
       id,
       inventory,
+      quantity,
     }
 
-    addToCart(product, productQuantity)
+    addToCart(product)
     successNotification()
   }
 

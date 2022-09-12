@@ -6,28 +6,21 @@ import {
   useEffect,
 } from 'react'
 import {
+  CartActionModel,
   cartReducer,
-  CartActionKind,
 } from '../../../store/reducers/cartReducer'
 import { Product } from '../../../mocks/products'
 interface CartProviderProps {
   children: ReactNode
 }
-
-export interface CartItem {
-  quantity: number
-  product: Product
-}
-
 export interface CartContextModel {
-  cartItems: CartItem[]
-  addToCart: (product: Product, quantity: number) => void
+  productsList: Product[]
+  addToCart: (product: Product) => void
   removeFromCart: (product: Product) => void
-  updateItemQuantity: (quantity: number, id: string) => void
 }
 
 const initialState = {
-  cartItems: [],
+  productsList: [],
 }
 
 const CartContext = createContext({} as CartContextModel)
@@ -43,76 +36,42 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     return initialState
   })
 
+  console.log('cartState.productsList = ', cartState)
+
   useEffect(() => {
     const stateJSON = JSON.stringify(cartState)
     localStorage.setItem('@coffee-delivery:cart-cartState-1.0.0', stateJSON)
   }, [cartState])
 
-  const addToCart = (product: Product, quantity: number) => {
-    const updatedCart: CartItem[] = [
-      ...cartState.cartItems,
-      { quantity, product },
-    ]
-    updateTotalPrice(updatedCart)
+  const addToCart = (product: Product) => {
+    const updatedProductsList = [...cartState.productsList, product]
     dispatch({
-      type: CartActionKind.ADD_TO_CART,
+      type: CartActionModel.ADD_TO_CART,
       payload: {
-        cartItems: updatedCart,
+        productsList: updatedProductsList,
       },
     })
   }
 
   const removeFromCart = (product: Product) => {
-    const updatedCartWithoutDeletedProduct = cartState.cartItems.filter(
-      (currentProduct: CartItem) => currentProduct.product.id !== product.id,
+    const productsListWithoutDeletedOne = cartState.productsList.filter(
+      (selectedProduct) => selectedProduct.id !== product.id,
     )
-    updateTotalPrice(updatedCartWithoutDeletedProduct)
     dispatch({
-      type: CartActionKind.REMOVE_FROM_CART,
+      type: CartActionModel.REMOVE_FROM_CART,
       payload: {
-        cartItems: updatedCartWithoutDeletedProduct,
-      },
-    })
-  }
-
-  const updateTotalPrice = (products: CartItem[]) => {
-    const initialValue = 0
-
-    const totalCart = products.reduce(
-      (previousValue, currentValue) =>
-        previousValue + currentValue.product.price,
-      initialValue,
-    )
-
-    dispatch({
-      type: CartActionKind.UPDATE_PRICE,
-      payload: {
-        totalCart,
-      },
-    })
-  }
-
-  // acessar o cartItems
-  // encontrar produto pelo ID
-  // alterar a quantidade
-
-  const updateItemQuantity = (quantity: number, id: string) => {
-    const totalQuantity = quantity
-
-    dispatch({
-      type: CartActionKind.UPDATE_QUANTITY,
-      payload: {
-        totalQuantity,
+        productsList: productsListWithoutDeletedOne,
       },
     })
   }
 
   const value = {
-    cartItems: cartState.cartItems,
-    updateItemQuantity,
+    productsList: cartState.productsList,
     addToCart,
     removeFromCart,
   }
+  console.log('productsList = ', cartState.productsList)
+
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
 
