@@ -61,7 +61,6 @@ export function Checkout() {
   })
 
   const { productsList, removeFromCart } = useCart()
-  console.log('productsList = ', productsList)
 
   const handleDeleteProduct = (product: Product): void => {
     removeFromCart(product)
@@ -74,15 +73,19 @@ export function Checkout() {
     productsList.map((product) => setProductQuantity(product.quantity))
   }
 
+  const totalItemsQuantity = productsList
+    .map((product) => product.quantity)
+    .reduce((prev, curr) => prev + curr, 0)
+
+  const totalItemsPrices = productsList
+    .map((product) => product.price * product.quantity)
+    .reduce((prev, curr) => prev + curr, 0)
+
   // manage delivery cost
   const deliveryCost = productsList.length > 0 ? 3.5 : 0
 
   // format prices
-  const totalItemsPrices = productsList
-    .map((product) => product.price)
-    .reduce((prev, curr) => prev + curr, 0)
-  console.log('totalItemsPrices = ', totalItemsPrices)
-  const total = totalItemsPrices * productQuantity || 0
+  const total = totalItemsPrices || 0
   const formatedTotal = formatPrice(total)
   const formatedDeliveryCost = formatPrice(deliveryCost)
   const totalWithDelivery = total + deliveryCost
