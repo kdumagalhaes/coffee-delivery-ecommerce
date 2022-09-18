@@ -10,6 +10,7 @@
     "lint": "eslint src --ext .ts,.tsx --fix"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^1.0.0-beta.3",
     "@hookform/resolvers": "^2.9.7",
     "immer": "^9.0.15",
     "phosphor-react": "^1.4.1",
