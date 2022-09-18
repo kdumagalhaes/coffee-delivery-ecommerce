@@ -13,6 +13,7 @@ import {
   CheckoutFormInput,
   EmptyCartMessage,
 } from './styles'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 // assets
 import {
@@ -59,6 +60,8 @@ export function Checkout() {
     siafi: '',
     uf: '',
   })
+
+  const [parent] = useAutoAnimate()
 
   const { productsList, removeFromCart } = useCart()
 
@@ -229,7 +232,7 @@ export function Checkout() {
       <div className="right-blocks">
         <SubTitle>Cafés selecionados</SubTitle>
         <OrderSummary>
-          <ul className="product-list">
+          <ul className="product-list" ref={parent}>
             {productsList.length === 0 ? (
               <EmptyCartMessage>
                 Você ainda não adicionou produtos no carrinho.
