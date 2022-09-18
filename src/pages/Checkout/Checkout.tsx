@@ -61,6 +61,7 @@ export function Checkout() {
   })
 
   const { productsList, removeFromCart } = useCart()
+  console.log('productsList = ', productsList)
 
   const handleDeleteProduct = (product: Product): void => {
     removeFromCart(product)
@@ -69,15 +70,19 @@ export function Checkout() {
   const itemQuantity = productsList.map(({ quantity }) => quantity)[0]
   const [productQuantity, setProductQuantity] = useState(itemQuantity)
 
+  const handleItemQuantity = () => {
+    productsList.map((product) => setProductQuantity(product.quantity))
+  }
+
   // manage delivery cost
   const deliveryCost = productsList.length > 0 ? 3.5 : 0
 
   // format prices
-  const totalItemsPrices = productsList.reduce(
-    (prevVal, elem) => prevVal + elem.price,
-    0,
-  )
-  const total = totalItemsPrices * itemQuantity || 0
+  const totalItemsPrices = productsList
+    .map((product) => product.price)
+    .reduce((prev, curr) => prev + curr, 0)
+  console.log('totalItemsPrices = ', totalItemsPrices)
+  const total = totalItemsPrices * productQuantity || 0
   const formatedTotal = formatPrice(total)
   const formatedDeliveryCost = formatPrice(deliveryCost)
   const totalWithDelivery = total + deliveryCost
@@ -239,9 +244,9 @@ export function Checkout() {
                       <p className="product-name">{product.name}</p>
                       <div className="controls">
                         <QuantityStepper
-                          quantity={productQuantity}
+                          quantity={product.quantity}
                           productId={product.id}
-                          setQuantity={setProductQuantity}
+                          setQuantity={handleItemQuantity}
                         />
                         <RemoveButton
                           onClick={() => handleDeleteProduct(product)}
@@ -252,7 +257,7 @@ export function Checkout() {
                       </div>
                     </div>
                     <strong className="price">
-                      R$ {formatPrice(product.price * 1)}
+                      R$ {formatPrice(product.price * product.quantity)}
                     </strong>
                   </SelectedProduct>
                 )

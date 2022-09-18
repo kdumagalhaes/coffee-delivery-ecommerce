@@ -4,6 +4,8 @@ import { CartContextModel } from '../contexts/cart/CartContext'
 export enum CartActionModel {
   ADD_TO_CART = 'ADD_TO_CART',
   REMOVE_FROM_CART = 'REMOVE_FROM_CART',
+  INCREASE_PRODUCT_QUANTITY = 'INCREASE_PRODUCT_QUANTITY',
+  DECREASE_PRODUCT_QUANTITY = 'DECREASE_PRODUCT_QUANTITY',
 }
 
 type Action =
@@ -11,6 +13,14 @@ type Action =
   | {
       type: CartActionModel.REMOVE_FROM_CART
       payload: { productsList: Product[] | [] }
+    }
+  | {
+      type: CartActionModel.INCREASE_PRODUCT_QUANTITY
+      payload: { productsList: Product[] }
+    }
+  | {
+      type: CartActionModel.DECREASE_PRODUCT_QUANTITY
+      payload: { productsList: Product[] }
     }
 
 export const cartReducer = (state: CartContextModel, action: Action) => {
@@ -27,6 +37,17 @@ export const cartReducer = (state: CartContextModel, action: Action) => {
         ...state,
         productsList: payload.productsList,
       }
+    case CartActionModel.INCREASE_PRODUCT_QUANTITY:
+      return {
+        ...state,
+        productsList: payload.productsList,
+      }
+    case CartActionModel.DECREASE_PRODUCT_QUANTITY:
+      return {
+        ...state,
+        productsList: payload.productsList,
+      }
+
     default:
       throw new Error(`No case for type ${type} found in cartReducer.`)
   }

@@ -33,7 +33,7 @@ export function ProductSummary({
 }: ProductSummaryProps) {
   const formatedPrice = formatPrice(price)
   const { addToCart } = useCart()
-  const [productQuantity, setProductQuantity] = useState(1)
+  const [productQuantity, setProductQuantity] = useState(quantity)
 
   const textQuantity = productQuantity > 1 ? 'adicionados' : 'adicionado'
 
@@ -49,7 +49,7 @@ export function ProductSummary({
       description,
       id,
       inventory,
-      quantity,
+      quantity: productQuantity,
     }
 
     addToCart(product)
