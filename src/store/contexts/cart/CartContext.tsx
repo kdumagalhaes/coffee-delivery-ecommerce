@@ -6,28 +6,28 @@ import {
   useEffect,
 } from 'react'
 import {
+  CartActionModel,
   cartReducer,
-  CartActionKind,
 } from '../../../store/reducers/cartReducer'
-import { Product } from '../../../mocks/products'
+import { CoffeeTypes, Product } from '../../../mocks/products'
+import produce from 'immer'
 interface CartProviderProps {
   children: ReactNode
 }
-
-export interface CartItem {
-  quantity: number
-  product: Product
-}
-
 export interface CartContextModel {
-  cartItems: CartItem[]
-  addToCart: (product: Product, quantity: number) => void
+  productsList: Product[]
+  addToCart: (product: Product) => void
   removeFromCart: (product: Product) => void
-  updateItemQuantity: (quantity: number, id: string) => void
+  increaseProductQuantity: (productId: string) => void
+  decreaseProductQuantity: (productId: string) => void
 }
 
-const initialState = {
-  cartItems: [],
+interface initialStateModel {
+  productsList: Product[]
+}
+
+const initialState: initialStateModel = {
+  productsList: [],
 }
 
 const CartContext = createContext({} as CartContextModel)
@@ -35,7 +35,7 @@ const CartContext = createContext({} as CartContextModel)
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [cartState, dispatch] = useReducer(cartReducer, initialState, () => {
     const storedStateAsJson = localStorage.getItem(
-      '@coffee-delivery:cart-cartState-1.0.0',
+      '@coffee-delivery:cart-cartState-1.0.1',
     )
     if (storedStateAsJson) {
       return JSON.parse(storedStateAsJson)
@@ -45,74 +45,77 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
   useEffect(() => {
     const stateJSON = JSON.stringify(cartState)
-    localStorage.setItem('@coffee-delivery:cart-cartState-1.0.0', stateJSON)
+    localStorage.setItem('@coffee-delivery:cart-cartState-1.0.1', stateJSON)
   }, [cartState])
 
-  const addToCart = (product: Product, quantity: number) => {
-    const updatedCart: CartItem[] = [
-      ...cartState.cartItems,
-      { quantity, product },
-    ]
-    updateTotalPrice(updatedCart)
+  const addToCart = (product: Product) => {
+    const updatedProductsList = [...cartState.productsList, product]
+
     dispatch({
-      type: CartActionKind.ADD_TO_CART,
+      type: CartActionModel.ADD_TO_CART,
       payload: {
-        cartItems: updatedCart,
+        productsList: updatedProductsList,
       },
     })
   }
 
   const removeFromCart = (product: Product) => {
-    const updatedCartWithoutDeletedProduct = cartState.cartItems.filter(
-      (currentProduct: CartItem) => currentProduct.product.id !== product.id,
+    const productsListWithoutDeletedOne = cartState.productsList.filter(
+      (selectedProduct) => selectedProduct.id !== product.id,
     )
-    updateTotalPrice(updatedCartWithoutDeletedProduct)
+
     dispatch({
-      type: CartActionKind.REMOVE_FROM_CART,
+      type: CartActionModel.REMOVE_FROM_CART,
       payload: {
-        cartItems: updatedCartWithoutDeletedProduct,
+        productsList: productsListWithoutDeletedOne,
       },
     })
   }
 
-  const updateTotalPrice = (products: CartItem[]) => {
-    const initialValue = 0
-
-    const totalCart = products.reduce(
-      (previousValue, currentValue) =>
-        previousValue + currentValue.product.price,
-      initialValue,
+  const increaseProductQuantity = (productId: string) => {
+    const productsListWithIncreasedQuantity = produce(
+      cartState.productsList,
+      (draft) => {
+        const index = draft.findIndex((product) => product.id === productId)
+        draft[index]!.quantity++
+      },
     )
 
     dispatch({
-      type: CartActionKind.UPDATE_PRICE,
+      type: CartActionModel.INCREASE_PRODUCT_QUANTITY,
       payload: {
-        totalCart,
+        productsList: productsListWithIncreasedQuantity,
       },
     })
   }
 
-  // acessar o cartItems
-  // encontrar produto pelo ID
-  // alterar a quantidade
-
-  const updateItemQuantity = (quantity: number, id: string) => {
-    const totalQuantity = quantity
+  const decreaseProductQuantity = (productId: string) => {
+    const productsListWithDecreasedQuantity = produce(
+      cartState.productsList,
+      (draft) => {
+        const index = draft.findIndex((product) => product.id === productId)
+        draft[index].quantity > 1
+          ? draft[index].quantity--
+          : (draft[index].quantity = 1)
+      },
+    )
 
     dispatch({
-      type: CartActionKind.UPDATE_QUANTITY,
+      type: CartActionModel.DECREASE_PRODUCT_QUANTITY,
       payload: {
-        totalQuantity,
+        productsList: productsListWithDecreasedQuantity,
       },
     })
   }
 
   const value = {
-    cartItems: cartState.cartItems,
-    updateItemQuantity,
+    productsList: cartState.productsList,
     addToCart,
     removeFromCart,
+    increaseProductQuantity,
+    decreaseProductQuantity,
   }
+
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
 

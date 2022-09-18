@@ -60,28 +60,29 @@ export function Checkout() {
     uf: '',
   })
 
-  const { cartItems, removeFromCart, updateItemQuantity } = useCart()
+  const { productsList, removeFromCart } = useCart()
+  console.log('productsList = ', productsList)
 
   const handleDeleteProduct = (product: Product): void => {
     removeFromCart(product)
   }
 
-  const itemQuantity = cartItems.map(({ quantity }) => quantity)[0]
+  const itemQuantity = productsList.map(({ quantity }) => quantity)[0]
   const [productQuantity, setProductQuantity] = useState(itemQuantity)
 
-  // manage delivery cost
-  const deliveryCost = cartItems.length > 0 ? 3.5 : 0
+  const handleItemQuantity = () => {
+    productsList.map((product) => setProductQuantity(product.quantity))
+  }
 
-  const foo = cartItems.map(({ product, quantity }) =>
-    console.log('quantity = ', quantity, 'product = ', product),
-  )
+  // manage delivery cost
+  const deliveryCost = productsList.length > 0 ? 3.5 : 0
 
   // format prices
-  const totalItemsPrices = cartItems.reduce(
-    (prevVal, elem) => prevVal + elem.product.price,
-    0,
-  )
-  const total = totalItemsPrices * itemQuantity || 0
+  const totalItemsPrices = productsList
+    .map((product) => product.price)
+    .reduce((prev, curr) => prev + curr, 0)
+  console.log('totalItemsPrices = ', totalItemsPrices)
+  const total = totalItemsPrices * productQuantity || 0
   const formatedTotal = formatPrice(total)
   const formatedDeliveryCost = formatPrice(deliveryCost)
   const totalWithDelivery = total + deliveryCost
@@ -226,12 +227,12 @@ export function Checkout() {
         <SubTitle>Cafés selecionados</SubTitle>
         <OrderSummary>
           <ul className="product-list">
-            {cartItems.length === 0 ? (
+            {productsList.length === 0 ? (
               <EmptyCartMessage>
                 Você ainda não adicionou produtos no carrinho.
               </EmptyCartMessage>
             ) : (
-              cartItems.map(({ product, quantity }) => {
+              productsList.map((product) => {
                 return (
                   <SelectedProduct key={product.id}>
                     <img
@@ -243,9 +244,9 @@ export function Checkout() {
                       <p className="product-name">{product.name}</p>
                       <div className="controls">
                         <QuantityStepper
-                          quantity={productQuantity}
+                          quantity={product.quantity}
                           productId={product.id}
-                          setQuantity={setProductQuantity}
+                          setQuantity={handleItemQuantity}
                         />
                         <RemoveButton
                           onClick={() => handleDeleteProduct(product)}
@@ -256,7 +257,7 @@ export function Checkout() {
                       </div>
                     </div>
                     <strong className="price">
-                      R$ {formatPrice(product.price * quantity)}
+                      R$ {formatPrice(product.price * product.quantity)}
                     </strong>
                   </SelectedProduct>
                 )
