@@ -61,7 +61,7 @@ export function Checkout() {
     uf: '',
   })
 
-  const [parent] = useAutoAnimate()
+  const [parent] = useAutoAnimate<HTMLUListElement>()
 
   const { productsList, removeFromCart } = useCart()
 
