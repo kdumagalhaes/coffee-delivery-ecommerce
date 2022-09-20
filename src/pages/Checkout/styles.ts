@@ -133,6 +133,11 @@ export const Installments = styled(BlockLayout)`
       flex-direction: column;
     }
   }
+
+  .selected-installment {
+    outline: 1px solid ${(props) => props.theme.purple};
+    background-color: ${(props) => props.theme['purple-light']};
+  }
 `
 
 export const OrderSummary = styled.div`
@@ -294,6 +299,7 @@ export const InstallmentButton = styled.button`
     background-color: ${(props) => props.theme['purple-light']};
   }
 `
+
 export const EmptyCartMessage = styled.li`
   width: 100%;
   text-align: center;
