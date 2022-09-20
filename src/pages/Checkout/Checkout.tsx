@@ -48,6 +48,8 @@ interface AddressViaApi {
 export function Checkout() {
   const [postalCode, setPostalCode] = useState<string>('')
   const [error, setError] = useState<string>('')
+  const [installmentSelected, setInstallmentSelected] = useState('')
+  console.log(installmentSelected)
   const [addressViaApi, setAddresViaApi] = useState<AddressViaApi>({
     bairro: '',
     cep: '',
@@ -112,6 +114,12 @@ export function Checkout() {
         .then((json) => setAddresViaApi(json))
         .catch((error) => setError(error))
   }, [postalCode, postalCodeInputController])
+
+  const handleInstallmentSelection = (selection: string) => {
+    setInstallmentSelected(selection)
+  }
+
+  const isSubmitButtonDisable = installmentSelected === ''
 
   return (
     <Container>
@@ -214,15 +222,30 @@ export function Checkout() {
             </div>
           </BlockHeader>
           <div className="installments-options">
-            <InstallmentButton>
+            <InstallmentButton
+              onFocus={() => handleInstallmentSelection('credit')}
+              className={
+                installmentSelected === 'credit' ? 'selected-installment' : ''
+              }
+            >
               <CreditCard size={16} color="#8047F8" />
               Cartão de crédito
             </InstallmentButton>
-            <InstallmentButton>
+            <InstallmentButton
+              onFocus={() => handleInstallmentSelection('debit')}
+              className={
+                installmentSelected === 'debit' ? 'selected-installment' : ''
+              }
+            >
               <Bank size={16} color="#8047F8" />
               Cartão de débito
             </InstallmentButton>
-            <InstallmentButton>
+            <InstallmentButton
+              onFocus={() => handleInstallmentSelection('money')}
+              className={
+                installmentSelected === 'money' ? 'selected-installment' : ''
+              }
+            >
               <Money size={16} color="#8047F8" />
               Dinheiro
             </InstallmentButton>
@@ -293,7 +316,11 @@ export function Checkout() {
                 </span>
               </li>
             </ul>
-            <PlaceOrderButton type="submit" form="checkout-form">
+            <PlaceOrderButton
+              type="submit"
+              form="checkout-form"
+              disabled={isSubmitButtonDisable}
+            >
               Confirmar pedido
             </PlaceOrderButton>
           </BillingSummary>
