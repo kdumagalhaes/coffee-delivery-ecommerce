@@ -308,3 +308,25 @@ export const EmptyCartMessage = styled.li`
   font-weight: 700;
   color: ${(props) => props.theme['base-label']};
 `
+export const EmptyCartButton = styled.a`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  padding: 0.9rem 0;
+  color: ${(props) => props.theme.white};
+  text-transform: uppercase;
+  background-color: ${(props) => props.theme.purple};
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: background-color 0.3s;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 3rem;
+
+  &:hover {
+    background-color: ${(props) => props.theme['purple-dark']};
+  }
+`

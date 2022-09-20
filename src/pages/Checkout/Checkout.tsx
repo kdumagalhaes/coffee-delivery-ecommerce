@@ -12,6 +12,7 @@ import {
   InstallmentButton,
   CheckoutFormInput,
   EmptyCartMessage,
+  EmptyCartButton,
 } from './styles'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
@@ -257,9 +258,12 @@ export function Checkout() {
         <OrderSummary>
           <ul className="product-list" ref={parent}>
             {productsList.length === 0 ? (
-              <EmptyCartMessage>
-                Você ainda não adicionou produtos no carrinho.
-              </EmptyCartMessage>
+              <>
+                <EmptyCartMessage>
+                  Você ainda não adicionou cafés no carrinho.
+                </EmptyCartMessage>
+                <EmptyCartButton href="/">Escolher meus cafés</EmptyCartButton>
+              </>
             ) : (
               productsList.map((product) => {
                 return (
