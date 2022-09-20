@@ -119,12 +119,8 @@ export function Checkout() {
     setInstallmentSelected(selection)
   }
 
-  const isSubmitButtonDisable = installmentSelected === ''
-
-  // condicoes botao order placed
-  // ter 1 ou mais produtos no carrinho
-  // form preenchido
-  // installment selecionado :check
+  const isSubmitButtonDisable =
+    installmentSelected === '' || productsList.length === 0
 
   return (
     <Container>
