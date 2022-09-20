@@ -49,7 +49,16 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   }, [cartState])
 
   const addToCart = (product: Product) => {
-    const updatedProductsList = [...cartState.productsList, product]
+    const isProductInCart = cartState.productsList.some(
+      (item) => item.id === product.id,
+    )
+
+    const updatedProductsList = !isProductInCart
+      ? [...cartState.productsList, product]
+      : produce(cartState.productsList, (draft) => {
+          const index = draft.findIndex((item) => item.id === product.id)
+          draft[index]!.quantity++
+        })
 
     dispatch({
       type: CartActionModel.ADD_TO_CART,
