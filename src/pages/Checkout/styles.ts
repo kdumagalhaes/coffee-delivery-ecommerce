@@ -271,6 +271,12 @@ export const PlaceOrderButton = styled.button`
   &:hover {
     background-color: ${(props) => props.theme['yellow-dark']};
   }
+
+  &:disabled {
+    background-color: lightgray;
+    cursor: initial;
+    color: gray;
+  }
 `
 // https://stackoverflow.com/questions/72786744/how-to-select-only-one-button-with-react-typescript
 export const InstallmentButton = styled.button`
