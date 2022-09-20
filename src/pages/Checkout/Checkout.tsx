@@ -50,7 +50,6 @@ export function Checkout() {
   const [postalCode, setPostalCode] = useState<string>('')
   const [error, setError] = useState<string>('')
   const [installmentSelected, setInstallmentSelected] = useState('')
-  console.log(installmentSelected)
   const [addressViaApi, setAddresViaApi] = useState<AddressViaApi>({
     bairro: '',
     cep: '',
@@ -121,6 +120,11 @@ export function Checkout() {
   }
 
   const isSubmitButtonDisable = installmentSelected === ''
+
+  // condicoes botao order placed
+  // ter 1 ou mais produtos no carrinho
+  // form preenchido
+  // installment selecionado :check
 
   return (
     <Container>
