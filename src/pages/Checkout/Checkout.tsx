@@ -172,9 +172,11 @@ export function Checkout() {
               max={8}
               onChange={(e) => handlePostalCode(e)}
             />
-            {error && addressViaApi?.logradouro === undefined ? (
-              <span className="error-message">{error}</span>
-            ) : null}
+            {addressViaApi.cep === '' && installmentSelected !== '' ? (
+              <span className="error-message">CEP é obrigatório!</span>
+            ) : (
+              ''
+            )}
             <CheckoutFormInput
               id="street"
               type="text"
@@ -204,6 +206,11 @@ export function Checkout() {
                 min={1}
               />
             </div>
+            {addressNumber === '' && installmentSelected !== '' ? (
+              <span className="error-message">Número é obrigatório!</span>
+            ) : (
+              ''
+            )}
             <div className="flex-hor">
               <CheckoutFormInput
                 id="neighbourhood"

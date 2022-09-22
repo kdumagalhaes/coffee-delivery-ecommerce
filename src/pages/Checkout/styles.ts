@@ -97,6 +97,10 @@ export const CheckoutForm = styled.form`
     }
   }
 
+  .input-alert {
+    border: 1px solid #ff0000;
+  }
+
   .cartState {
     max-width: 2.95rem;
   }
