@@ -16,18 +16,22 @@ interface CartProviderProps {
 }
 export interface CartContextModel {
   productsList: Product[]
+  checkoutData: any
   addToCart: (product: Product) => void
   removeFromCart: (product: Product) => void
   increaseProductQuantity: (productId: string) => void
   decreaseProductQuantity: (productId: string) => void
+  getCheckoutData: (data: any) => void
 }
 
 interface initialStateModel {
   productsList: Product[]
+  checkoutData: any
 }
 
 const initialState: initialStateModel = {
   productsList: [],
+  checkoutData: '',
 }
 
 const CartContext = createContext({} as CartContextModel)
@@ -117,12 +121,23 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     })
   }
 
+  const getCheckoutData = (data: any) => {
+    dispatch({
+      type: CartActionModel.GET_CHECKOUT_DATA,
+      payload: {
+        checkoutData: data,
+      },
+    })
+  }
+
   const value = {
     productsList: cartState.productsList,
+    checkoutData: cartState.checkoutData,
     addToCart,
     removeFromCart,
     increaseProductQuantity,
     decreaseProductQuantity,
+    getCheckoutData,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

@@ -65,7 +65,7 @@ export function Checkout() {
 
   const [parent] = useAutoAnimate<HTMLUListElement>()
 
-  const { productsList, removeFromCart } = useCart()
+  const { productsList, removeFromCart, getCheckoutData } = useCart()
 
   const handleDeleteProduct = (product: Product): void => {
     removeFromCart(product)
@@ -324,6 +324,7 @@ export function Checkout() {
               type="submit"
               form="checkout-form"
               disabled={isSubmitButtonDisable}
+              onClick={() => getCheckoutData('dados do checkout')}
             >
               Confirmar pedido
             </PlaceOrderButton>

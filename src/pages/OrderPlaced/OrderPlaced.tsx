@@ -5,8 +5,12 @@ import OrderConfirmationIllustration from '../../assets/images/order-confirmatio
 import DeliveryAddressIcon from '../../assets/icons/map-circle.svg'
 import DeliverySLAIcon from '../../assets/icons/watch-circle.svg'
 import DeliveryInstallmentIcon from '../../assets/icons/currency-circle.svg'
+import useCart from '../../store/contexts/cart/CartContext'
 
 export function OrderPlaced() {
+  const { checkoutData } = useCart()
+  console.log('checkoutData = ', checkoutData)
+
   const nomeDaRua = 'Rua João Daniel Martinelli'
   const numeroDoLogradouro = '102'
   const nomeDaCidade = 'Farrapos'
