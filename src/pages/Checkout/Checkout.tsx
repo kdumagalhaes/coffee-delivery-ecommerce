@@ -173,7 +173,9 @@ export function Checkout() {
               onChange={(e) => handlePostalCode(e)}
             />
             {addressViaApi.cep === '' && installmentSelected !== '' ? (
-              <span className="error-message">CEP é obrigatório!</span>
+              <span className="error-message-postalcode">
+                CEP é obrigatório!
+              </span>
             ) : (
               ''
             )}
@@ -198,6 +200,13 @@ export function Checkout() {
                 onChange={(e) => handleAddressNumber(e)}
                 value={addressNumber}
               />
+              {addressNumber === '' && installmentSelected !== '' ? (
+                <span className="error-message-number-mobile">
+                  Número é obrigatório!
+                </span>
+              ) : (
+                ''
+              )}
               <CheckoutFormInput
                 id="complement"
                 type="text"
@@ -207,7 +216,9 @@ export function Checkout() {
               />
             </div>
             {addressNumber === '' && installmentSelected !== '' ? (
-              <span className="error-message">Número é obrigatório!</span>
+              <span className="error-message-number">
+                Número é obrigatório!
+              </span>
             ) : (
               ''
             )}
