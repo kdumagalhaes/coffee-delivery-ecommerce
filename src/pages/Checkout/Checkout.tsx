@@ -251,6 +251,7 @@ export function Checkout() {
           <div className="installments-options">
             <InstallmentButton
               onFocus={() => handleInstallmentSelection('Crédito')}
+              onClick={() => handleInstallmentSelection('Crédito')}
               className={
                 installmentSelected === 'Crédito' ? 'selected-installment' : ''
               }
@@ -260,6 +261,7 @@ export function Checkout() {
             </InstallmentButton>
             <InstallmentButton
               onFocus={() => handleInstallmentSelection('Débito')}
+              onClick={() => handleInstallmentSelection('Débito')}
               className={
                 installmentSelected === 'Débito' ? 'selected-installment' : ''
               }
@@ -269,6 +271,7 @@ export function Checkout() {
             </InstallmentButton>
             <InstallmentButton
               onFocus={() => handleInstallmentSelection('Dinheiro')}
+              onClick={() => handleInstallmentSelection('Dinheiro')}
               className={
                 installmentSelected === 'Dinheiro' ? 'selected-installment' : ''
               }
