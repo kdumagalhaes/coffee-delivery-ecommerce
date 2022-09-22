@@ -6,16 +6,30 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
 
+  @media (max-width: 480px) {
+    margin: 1rem auto;
+    padding: 0 20px;
+  }
+
   .order-confirmation-title {
     font-family: 'Baloo 2', cursive;
     font-size: 2rem;
     font-weight: 800;
     color: ${(props) => props.theme['yellow-dark']};
+
+    @media (max-width: 480px) {
+      font-size: 1.8rem;
+    }
   }
 
   .order-confirmation-message {
     font-size: 1.25rem;
     margin-bottom: 3.1rem;
+
+    @media (max-width: 480px) {
+      font-size: 1rem;
+      max-width: 20rem;
+    }
   }
 
   .order-data {
@@ -42,6 +56,11 @@ export const Container = styled.div`
       border-radius: inherit;
       background: linear-gradient(to left, #8047f8, #dbac2c);
     }
+
+    @media (max-width: 480px) {
+      max-width: 21rem;
+      margin-bottom: 5rem;
+    }
   }
 
   .order-data-item {
@@ -57,5 +76,9 @@ export const Container = styled.div`
 
   .order-confirmation-illustration {
     align-self: flex-end;
+
+    @media (max-width: 480px) {
+      display: none;
+    }
   }
 `
