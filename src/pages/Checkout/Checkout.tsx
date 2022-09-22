@@ -16,6 +16,8 @@ import {
 } from './styles'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
+import { useNavigate } from 'react-router-dom'
+
 // assets
 import {
   MapPin,
@@ -65,6 +67,7 @@ export function Checkout() {
   })
 
   const [parent] = useAutoAnimate<HTMLUListElement>()
+  const navigate = useNavigate()
 
   const { productsList, removeFromCart, getCheckoutData } = useCart()
 
@@ -127,7 +130,7 @@ export function Checkout() {
   const isSubmitButtonDisable =
     installmentSelected === '' || productsList.length === 0
 
-  const handleCheckoutData = () => {
+  const handleCheckout = () => {
     const data = {
       state: addressViaApi.uf,
       street: addressViaApi.logradouro,
@@ -136,6 +139,8 @@ export function Checkout() {
       city: addressViaApi.localidade,
     }
     getCheckoutData(data)
+    navigate('/order-placed')
+    productsList.length = 0
   }
 
   return (
@@ -342,7 +347,7 @@ export function Checkout() {
               type="submit"
               form="checkout-form"
               disabled={isSubmitButtonDisable}
-              onClick={handleCheckoutData}
+              onClick={handleCheckout}
             >
               Confirmar pedido
             </PlaceOrderButton>
