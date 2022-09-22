@@ -5,8 +5,12 @@ import OrderConfirmationIllustration from '../../assets/images/order-confirmatio
 import DeliveryAddressIcon from '../../assets/icons/map-circle.svg'
 import DeliverySLAIcon from '../../assets/icons/watch-circle.svg'
 import DeliveryInstallmentIcon from '../../assets/icons/currency-circle.svg'
+import useCart from '../../store/contexts/cart/CartContext'
 
 export function OrderPlaced() {
+  const { checkoutData } = useCart()
+  console.log('checkoutData = ', checkoutData)
+
   const nomeDaRua = 'Rua João Daniel Martinelli'
   const numeroDoLogradouro = '102'
   const nomeDaCidade = 'Farrapos'
@@ -31,11 +35,11 @@ export function OrderPlaced() {
                 <p>
                   Entrega em{' '}
                   <strong>
-                    {nomeDaRua}, {numeroDoLogradouro}
+                    {checkoutData.street}, {checkoutData.number}
                   </strong>
                 </p>
                 <p>
-                  {nomeDaCidade} - {nomeDoEstado}
+                  {checkoutData.city} - {checkoutData.state}
                 </p>
               </div>
             </li>
@@ -50,7 +54,7 @@ export function OrderPlaced() {
               <img src={DeliveryInstallmentIcon} alt="ícone de cifrão" />
               <div className="text-content">
                 <p>Pagamento na entrega</p>
-                <strong>{formaDePagamento}</strong>
+                <strong>{checkoutData.installment}</strong>
               </div>
             </li>
           </ul>

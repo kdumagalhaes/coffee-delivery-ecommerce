@@ -1,11 +1,12 @@
 import { Product } from '../../mocks/products'
-import { CartContextModel } from '../contexts/cart/CartContext'
+import { CartContextModel, CheckoutData } from '../contexts/cart/CartContext'
 
 export enum CartActionModel {
   ADD_TO_CART = 'ADD_TO_CART',
   REMOVE_FROM_CART = 'REMOVE_FROM_CART',
   INCREASE_PRODUCT_QUANTITY = 'INCREASE_PRODUCT_QUANTITY',
   DECREASE_PRODUCT_QUANTITY = 'DECREASE_PRODUCT_QUANTITY',
+  GET_CHECKOUT_DATA = 'GET_CHECKOUT_DATA',
 }
 
 type Action =
@@ -21,6 +22,10 @@ type Action =
   | {
       type: CartActionModel.DECREASE_PRODUCT_QUANTITY
       payload: { productsList: Product[] }
+    }
+  | {
+      type: CartActionModel.GET_CHECKOUT_DATA
+      payload: { checkoutData: CheckoutData }
     }
 
 export const cartReducer = (state: CartContextModel, action: Action) => {
@@ -46,6 +51,11 @@ export const cartReducer = (state: CartContextModel, action: Action) => {
       return {
         ...state,
         productsList: payload.productsList,
+      }
+    case CartActionModel.GET_CHECKOUT_DATA:
+      return {
+        ...state,
+        checkoutData: payload.checkoutData,
       }
 
     default:

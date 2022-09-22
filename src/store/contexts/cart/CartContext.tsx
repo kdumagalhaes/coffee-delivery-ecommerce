@@ -9,25 +9,42 @@ import {
   CartActionModel,
   cartReducer,
 } from '../../../store/reducers/cartReducer'
-import { CoffeeTypes, Product } from '../../../mocks/products'
+import { Product } from '../../../mocks/products'
 import produce from 'immer'
 interface CartProviderProps {
   children: ReactNode
 }
+
+export interface CheckoutData {
+  street: string
+  number: string
+  state: string
+  installment: string
+  city: string
+}
 export interface CartContextModel {
   productsList: Product[]
+  checkoutData: CheckoutData
   addToCart: (product: Product) => void
   removeFromCart: (product: Product) => void
   increaseProductQuantity: (productId: string) => void
   decreaseProductQuantity: (productId: string) => void
+  getCheckoutData: (data: CheckoutData) => void
 }
-
 interface initialStateModel {
   productsList: Product[]
+  checkoutData: CheckoutData
 }
 
 const initialState: initialStateModel = {
   productsList: [],
+  checkoutData: {
+    installment: '',
+    number: '',
+    state: '',
+    street: '',
+    city: '',
+  },
 }
 
 const CartContext = createContext({} as CartContextModel)
@@ -117,12 +134,24 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     })
   }
 
+  const getCheckoutData = (data: CheckoutData) => {
+    console.log(data)
+    dispatch({
+      type: CartActionModel.GET_CHECKOUT_DATA,
+      payload: {
+        checkoutData: data,
+      },
+    })
+  }
+
   const value = {
     productsList: cartState.productsList,
+    checkoutData: cartState.checkoutData,
     addToCart,
     removeFromCart,
     increaseProductQuantity,
     decreaseProductQuantity,
+    getCheckoutData,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
