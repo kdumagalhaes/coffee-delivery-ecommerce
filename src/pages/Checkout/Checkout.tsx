@@ -128,7 +128,10 @@ export function Checkout() {
   }
 
   const isSubmitButtonDisable =
-    installmentSelected === '' || productsList.length === 0
+    installmentSelected === '' ||
+    productsList.length === 0 ||
+    addressNumber === '' ||
+    postalCode === ''
 
   const handleCheckout = () => {
     const data = {
