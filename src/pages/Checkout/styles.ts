@@ -105,10 +105,26 @@ export const CheckoutForm = styled.form`
     max-width: 2.95rem;
   }
 
-  .error-message {
+  .error-message-number,
+  .error-message-number-mobile,
+  .error-message-postalcode {
+    display: block;
     font-size: 0.75rem;
     color: #ff0000;
     margin-left: 0.8rem;
+  }
+
+  .error-message-number {
+    @media (max-width: 480px) {
+      display: none;
+    }
+  }
+
+  .error-message-number-mobile {
+    display: none;
+    @media (max-width: 480px) {
+      display: block;
+    }
   }
 `
 
