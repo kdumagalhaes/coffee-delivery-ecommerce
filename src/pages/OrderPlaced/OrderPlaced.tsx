@@ -35,11 +35,11 @@ export function OrderPlaced() {
                 <p>
                   Entrega em{' '}
                   <strong>
-                    {nomeDaRua}, {numeroDoLogradouro}
+                    {checkoutData.street}, {checkoutData.number}
                   </strong>
                 </p>
                 <p>
-                  {nomeDaCidade} - {nomeDoEstado}
+                  {checkoutData.city} - {checkoutData.state}
                 </p>
               </div>
             </li>
@@ -54,7 +54,7 @@ export function OrderPlaced() {
               <img src={DeliveryInstallmentIcon} alt="ícone de cifrão" />
               <div className="text-content">
                 <p>Pagamento na entrega</p>
-                <strong>{formaDePagamento}</strong>
+                <strong>{checkoutData.installment}</strong>
               </div>
             </li>
           </ul>

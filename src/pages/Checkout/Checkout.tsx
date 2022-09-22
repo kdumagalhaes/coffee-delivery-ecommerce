@@ -48,6 +48,7 @@ interface AddressViaApi {
 
 export function Checkout() {
   const [postalCode, setPostalCode] = useState<string>('')
+  const [addressNumber, setAddressNumber] = useState<string>('')
   const [error, setError] = useState<string>('')
   const [installmentSelected, setInstallmentSelected] = useState('')
   const [addressViaApi, setAddresViaApi] = useState<AddressViaApi>({
@@ -115,12 +116,27 @@ export function Checkout() {
         .catch((error) => setError(error))
   }, [postalCode, postalCodeInputController])
 
+  const handleAddressNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddressNumber(e.target.value)
+  }
+
   const handleInstallmentSelection = (selection: string) => {
     setInstallmentSelected(selection)
   }
 
   const isSubmitButtonDisable =
     installmentSelected === '' || productsList.length === 0
+
+  const handleCheckoutData = () => {
+    const data = {
+      state: addressViaApi.uf,
+      street: addressViaApi.logradouro,
+      number: addressNumber,
+      installment: installmentSelected,
+      city: addressViaApi.localidade,
+    }
+    getCheckoutData(data)
+  }
 
   return (
     <Container>
@@ -169,6 +185,8 @@ export function Checkout() {
                 placeholder="Número"
                 required
                 min={1}
+                onChange={(e) => handleAddressNumber(e)}
+                value={addressNumber}
               />
               <CheckoutFormInput
                 id="complement"
@@ -224,27 +242,27 @@ export function Checkout() {
           </BlockHeader>
           <div className="installments-options">
             <InstallmentButton
-              onFocus={() => handleInstallmentSelection('credit')}
+              onFocus={() => handleInstallmentSelection('Crédito')}
               className={
-                installmentSelected === 'credit' ? 'selected-installment' : ''
+                installmentSelected === 'Crédito' ? 'selected-installment' : ''
               }
             >
               <CreditCard size={16} color="#8047F8" />
               Cartão de crédito
             </InstallmentButton>
             <InstallmentButton
-              onFocus={() => handleInstallmentSelection('debit')}
+              onFocus={() => handleInstallmentSelection('Débito')}
               className={
-                installmentSelected === 'debit' ? 'selected-installment' : ''
+                installmentSelected === 'Débito' ? 'selected-installment' : ''
               }
             >
               <Bank size={16} color="#8047F8" />
               Cartão de débito
             </InstallmentButton>
             <InstallmentButton
-              onFocus={() => handleInstallmentSelection('money')}
+              onFocus={() => handleInstallmentSelection('Dinheiro')}
               className={
-                installmentSelected === 'money' ? 'selected-installment' : ''
+                installmentSelected === 'Dinheiro' ? 'selected-installment' : ''
               }
             >
               <Money size={16} color="#8047F8" />
@@ -324,7 +342,7 @@ export function Checkout() {
               type="submit"
               form="checkout-form"
               disabled={isSubmitButtonDisable}
-              onClick={() => getCheckoutData('dados do checkout')}
+              onClick={handleCheckoutData}
             >
               Confirmar pedido
             </PlaceOrderButton>

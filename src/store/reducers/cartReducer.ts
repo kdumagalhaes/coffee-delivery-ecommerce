@@ -1,5 +1,5 @@
 import { Product } from '../../mocks/products'
-import { CartContextModel } from '../contexts/cart/CartContext'
+import { CartContextModel, CheckoutData } from '../contexts/cart/CartContext'
 
 export enum CartActionModel {
   ADD_TO_CART = 'ADD_TO_CART',
@@ -25,7 +25,7 @@ type Action =
     }
   | {
       type: CartActionModel.GET_CHECKOUT_DATA
-      payload: { checkoutData: any }
+      payload: { checkoutData: CheckoutData }
     }
 
 export const cartReducer = (state: CartContextModel, action: Action) => {
