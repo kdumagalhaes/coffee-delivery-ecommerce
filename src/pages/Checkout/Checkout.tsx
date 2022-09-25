@@ -15,8 +15,8 @@ import {
   EmptyCartButton,
 } from './styles'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-
 import { useNavigate } from 'react-router-dom'
+import { QuantityStepper } from '../../components/QuantityStepper/QuantityStepper'
 
 // assets
 import {
@@ -27,7 +27,6 @@ import {
   Bank,
   Money,
 } from 'phosphor-react'
-import { QuantityStepper } from '../../components/QuantityStepper/QuantityStepper'
 
 // utils
 import React, { useState, useEffect } from 'react'
@@ -49,9 +48,10 @@ interface AddressViaApi {
 }
 
 export function Checkout() {
+  const { productsList, removeFromCart, getCheckoutData } = useCart()
+
   const [postalCode, setPostalCode] = useState<string>('')
   const [addressNumber, setAddressNumber] = useState<string>('')
-  const [error, setError] = useState<string>('')
   const [installmentSelected, setInstallmentSelected] = useState('')
   const [addressViaApi, setAddresViaApi] = useState<AddressViaApi>({
     bairro: '',
@@ -66,34 +66,26 @@ export function Checkout() {
     uf: '',
   })
 
+  // add animation on update product list
   const [parent] = useAutoAnimate<HTMLUListElement>()
   const navigate = useNavigate()
-
-  const { productsList, removeFromCart, getCheckoutData } = useCart()
-
-  const handleDeleteProduct = (product: Product): void => {
-    removeFromCart(product)
-  }
 
   const itemQuantity = productsList.map(({ quantity }) => quantity)[0]
   const [productQuantity, setProductQuantity] = useState(itemQuantity)
 
-  const handleItemQuantity = () => {
-    productsList.map((product) => setProductQuantity(product.quantity))
-  }
-
-  const totalItemsQuantity = productsList
-    .map((product) => product.quantity)
-    .reduce((prev, curr) => prev + curr, 0)
-
-  const totalItemsPrices = productsList
-    .map((product) => product.price * product.quantity)
-    .reduce((prev, curr) => prev + curr, 0)
+  const isSubmitButtonDisable =
+    installmentSelected === '' ||
+    productsList.length === 0 ||
+    addressNumber === '' ||
+    postalCode === ''
 
   // manage delivery cost
   const deliveryCost = productsList.length > 0 ? 3.5 : 0
 
   // format prices
+  const totalItemsPrices = productsList
+    .map((product) => product.price * product.quantity)
+    .reduce((prev, curr) => prev + curr, 0)
   const total = totalItemsPrices || 0
   const formatedTotal = formatPrice(total)
   const formatedDeliveryCost = formatPrice(deliveryCost)
@@ -116,8 +108,16 @@ export function Checkout() {
       fetch(VIA_CEP_ENDPOINT)
         .then((response) => response.json())
         .then((json) => setAddresViaApi(json))
-        .catch((error) => setError(error))
+        .catch((error) => console.log(error))
   }, [postalCode, postalCodeInputController])
+
+  const handleItemQuantity = () => {
+    productsList.map((product) => setProductQuantity(product.quantity))
+  }
+
+  const handleDeleteProduct = (product: Product): void => {
+    removeFromCart(product)
+  }
 
   const handleAddressNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddressNumber(e.target.value)
@@ -126,12 +126,6 @@ export function Checkout() {
   const handleInstallmentSelection = (selection: string) => {
     setInstallmentSelected(selection)
   }
-
-  const isSubmitButtonDisable =
-    installmentSelected === '' ||
-    productsList.length === 0 ||
-    addressNumber === '' ||
-    postalCode === ''
 
   const handleCheckout = () => {
     const data = {
