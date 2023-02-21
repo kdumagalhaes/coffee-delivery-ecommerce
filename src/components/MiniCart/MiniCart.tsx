@@ -8,7 +8,7 @@ export function MiniCart() {
   const { productsList } = useCart()
   const arr = []
   return (
-    <CartButton href="/checkout">
+    <CartButton data-testid="cart-button-test" href="/checkout">
       {productsList.length === 0 ? (
         ''
       ) : (
