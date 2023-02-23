@@ -29,7 +29,7 @@ import {
 } from 'phosphor-react'
 
 // utils
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ChangeEvent } from 'react'
 import useCart from '../../store/contexts/cart/CartContext'
 import { Product } from '../../mocks/products'
 import { formatPrice } from '../../utils/format'
@@ -50,21 +50,14 @@ interface AddressViaApi {
 export function Checkout() {
   const { productsList, removeFromCart, getCheckoutData } = useCart()
 
-  const [postalCode, setPostalCode] = useState<string>('')
-  const [addressNumber, setAddressNumber] = useState<string>('')
-  const [installmentSelected, setInstallmentSelected] = useState('')
-  const [addressViaApi, setAddresViaApi] = useState<AddressViaApi>({
-    bairro: '',
-    cep: '',
-    complemento: '',
-    ddd: '',
-    gia: '',
-    ibge: '',
-    localidade: '',
-    logradouro: '',
-    siafi: '',
-    uf: '',
+  const [formData, setFormData] = useState({
+    postalCode: '',
+    addressNumber: '',
   })
+  const { postalCode, addressNumber } = formData
+
+  const [installmentSelected, setInstallmentSelected] = useState('')
+  const [addressViaApi, setAddresViaApi] = useState({} as AddressViaApi)
 
   // add animation on update product list
   const [parent] = useAutoAnimate<HTMLUListElement>()
@@ -95,16 +88,18 @@ export function Checkout() {
   // set address by postal code
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
 
-  const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const userInput = e.target.value
-    const userInputWithoutHifen = userInput.replace(/-/g, '')
-    setPostalCode(userInputWithoutHifen)
+  const handleFormData = (
+    prop: string,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    setFormData({ ...formData, [prop]: event.target.value })
   }
 
   useEffect(() => {
-    const VIA_CEP_ENDPOINT = `https://viacep.com.br/ws/${postalCode}/json/`
+    const postalCodeWithoutHifen = postalCode.replace(/-/g, '')
+    const VIA_CEP_ENDPOINT = `https://viacep.com.br/ws/${postalCodeWithoutHifen}/json/`
 
-    if (postalCode)
+    if (postalCodeWithoutHifen)
       fetch(VIA_CEP_ENDPOINT)
         .then((response) => response.json())
         .then((json) => setAddresViaApi(json))
@@ -117,10 +112,6 @@ export function Checkout() {
 
   const handleDeleteProduct = (product: Product): void => {
     removeFromCart(product)
-  }
-
-  const handleAddressNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddressNumber(e.target.value)
   }
 
   const handleInstallmentSelection = (selection: string) => {
@@ -144,7 +135,7 @@ export function Checkout() {
     <Container>
       <div className="left-blocks">
         <SubTitle>Complete seu pedido</SubTitle>
-        <CheckoutForm id="checkout-form">
+        <CheckoutForm>
           <BlockHeader>
             <MapPin size={22} color="#C47F17" />
             <div className="block-text">
@@ -164,7 +155,7 @@ export function Checkout() {
               required
               min={1}
               max={8}
-              onChange={(e) => handlePostalCode(e)}
+              onChange={(e) => handleFormData('postalCode', e)}
             />
             {addressViaApi.cep === '' && installmentSelected !== '' ? (
               <span className="error-message-postalcode">
@@ -191,7 +182,7 @@ export function Checkout() {
                 placeholder="Número"
                 required
                 min={1}
-                onChange={(e) => handleAddressNumber(e)}
+                onChange={(e) => handleFormData('addressNumber', e)}
                 value={addressNumber}
               />
               {addressNumber === '' && installmentSelected !== '' ? (
@@ -362,8 +353,6 @@ export function Checkout() {
               </li>
             </ul>
             <PlaceOrderButton
-              type="submit"
-              form="checkout-form"
               disabled={isSubmitButtonDisable}
               onClick={handleCheckout}
             >
