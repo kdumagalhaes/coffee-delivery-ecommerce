@@ -29,10 +29,12 @@ import {
 } from 'phosphor-react'
 
 // utils
-import React, { useState, useEffect, ChangeEvent } from 'react'
+import { useState, useEffect, ChangeEvent } from 'react'
 import useCart from '../../store/contexts/cart/CartContext'
 import { Product } from '../../mocks/products'
 import { formatPrice } from '../../utils/format'
+import { fetchAddressData } from '../../utils/fetchAddressData'
+import useSWR from 'swr'
 interface AddressViaApi {
   bairro: string
   cep: string
@@ -95,16 +97,13 @@ export function Checkout() {
     setFormData({ ...formData, [prop]: event.target.value })
   }
 
-  useEffect(() => {
-    const postalCodeWithoutHifen = postalCode.replace(/-/g, '')
-    const VIA_CEP_ENDPOINT = `https://viacep.com.br/ws/${postalCodeWithoutHifen}/json/`
+  const { data } = useSWR(postalCode, fetchAddressData)
 
-    if (postalCodeWithoutHifen)
-      fetch(VIA_CEP_ENDPOINT)
-        .then((response) => response.json())
-        .then((json) => setAddresViaApi(json))
-        .catch((error) => console.log(error))
-  }, [postalCode, postalCodeInputController])
+  useEffect(() => {
+    if (data) {
+      setAddresViaApi(data)
+    }
+  }, [data, postalCode, postalCodeInputController])
 
   const handleItemQuantity = () => {
     productsList.map((product) => setProductQuantity(product.quantity))
