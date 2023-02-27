@@ -35,6 +35,7 @@ import { Product } from '../../mocks/products'
 import { formatPrice } from '../../utils/format'
 import { fetchAddressData } from '../../utils/fetchAddressData'
 import useSWR from 'swr'
+import { formatOrderPrices } from '../../utils/formatOrderPrices'
 interface AddressViaApi {
   bairro: string
   cep: string
@@ -61,7 +62,6 @@ export function Checkout() {
   const [installmentSelected, setInstallmentSelected] = useState('')
   const [addressViaApi, setAddresViaApi] = useState({} as AddressViaApi)
 
-  // add animation on update product list
   const [parent] = useAutoAnimate<HTMLUListElement>()
   const navigate = useNavigate()
 
@@ -74,21 +74,10 @@ export function Checkout() {
     addressNumber === '' ||
     postalCode === ''
 
-  // manage delivery cost
-  const deliveryCost = productsList.length > 0 ? 3.5 : 0
-
-  // format prices
-  const totalItemsPrices = productsList
-    .map((product) => product.price * product.quantity)
-    .reduce((prev, curr) => prev + curr, 0)
-  const total = totalItemsPrices || 0
-  const formatedTotal = formatPrice(total)
-  const formatedDeliveryCost = formatPrice(deliveryCost)
-  const totalWithDelivery = total + deliveryCost
-  const formatedTotalWithDelivery = formatPrice(totalWithDelivery)
-
-  // set address by postal code
-  const postalCodeInputController = postalCode.length === 8 ? postalCode : null
+  const total = formatOrderPrices(productsList).formatedTotal || 0
+  const deliveryPrice = formatOrderPrices(productsList).formatedDeliveryCost
+  const totalWithDelivery =
+    formatOrderPrices(productsList).formatedTotalWithDelivery
 
   const handleFormData = (
     prop: string,
@@ -98,6 +87,7 @@ export function Checkout() {
   }
 
   const { data } = useSWR(postalCode, fetchAddressData)
+  const postalCodeInputController = postalCode.length === 8 ? postalCode : null
 
   useEffect(() => {
     if (data) {
@@ -335,19 +325,19 @@ export function Checkout() {
                   Total de itens
                 </p>
                 <span className="billing-items-value billing-value">
-                  R$ {formatedTotal}
+                  R$ {total}
                 </span>
               </li>
               <li>
                 <p className="billing-delivery-title billing-title">Entrega</p>
                 <span className="billing-delivery-value billing-value">
-                  R$ {formatedDeliveryCost}
+                  R$ {deliveryPrice}
                 </span>
               </li>
               <li>
                 <p className="billing-total-title">Total</p>
                 <span className="billing-total-value">
-                  R$ {formatedTotalWithDelivery}
+                  R$ {totalWithDelivery}
                 </span>
               </li>
             </ul>
