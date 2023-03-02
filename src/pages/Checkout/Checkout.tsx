@@ -65,9 +65,6 @@ export function Checkout() {
   const [parent] = useAutoAnimate<HTMLUListElement>()
   const navigate = useNavigate()
 
-  const itemQuantity = productsList.map(({ quantity }) => quantity)[0]
-  const [productQuantity, setProductQuantity] = useState(itemQuantity)
-
   const isSubmitButtonDisable =
     installmentSelected === '' ||
     productsList.length === 0 ||
@@ -94,10 +91,6 @@ export function Checkout() {
       setAddresViaApi(data)
     }
   }, [data, postalCode, postalCodeInputController])
-
-  const handleItemQuantity = () => {
-    productsList.map((product) => setProductQuantity(product.quantity))
-  }
 
   const handleDeleteProduct = (product: Product): void => {
     removeFromCart(product)
@@ -300,7 +293,6 @@ export function Checkout() {
                         <QuantityStepper
                           quantity={product.quantity}
                           productId={product.id}
-                          setQuantity={handleItemQuantity}
                         />
                         <RemoveButton
                           onClick={() => handleDeleteProduct(product)}
