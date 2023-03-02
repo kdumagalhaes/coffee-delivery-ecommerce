@@ -1,25 +1,24 @@
+import { useState } from 'react'
 import useCart from '../../store/contexts/cart/CartContext'
 import { Button, Container, Steps } from './styles'
 interface QuantityStepperProps {
   productId: string
   quantity: number
-  setQuantity: (quantity: number) => void
 }
 
-export function QuantityStepper({
-  productId,
-  quantity,
-  setQuantity,
-}: QuantityStepperProps) {
+export function QuantityStepper({ productId, quantity }: QuantityStepperProps) {
   const { increaseProductQuantity, decreaseProductQuantity } = useCart()
+  const [quantityClicked, setQuantityClicked] = useState(1)
 
   const handleIncreaseQuantity = (): void => {
-    setQuantity(quantity + 1)
+    setQuantityClicked(quantityClicked + 1)
     increaseProductQuantity(productId)
   }
 
   const handleDecreaseQuantity = (): void => {
-    setQuantity(quantity === 1 ? quantity : quantity - 1)
+    setQuantityClicked(
+      quantityClicked === 1 ? quantityClicked : quantityClicked - 1,
+    )
     decreaseProductQuantity(productId)
   }
 

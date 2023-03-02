@@ -77,11 +77,7 @@ export function ProductSummary({
           <span className="currency">R$</span>
           <span className="price">{formatedPrice}</span>
         </Pricing>
-        <QuantityStepper
-          setQuantity={setProductQuantity}
-          productId={id}
-          quantity={productQuantity}
-        />
+        <QuantityStepper productId={id} quantity={productQuantity} />
         <AddToCartButton onClick={handleAddToCart}>
           <ShoppingCartSimple size={22} weight="fill" color="#F3F2F2" />
         </AddToCartButton>

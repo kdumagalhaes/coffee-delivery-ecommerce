@@ -29,10 +29,13 @@ import {
 } from 'phosphor-react'
 
 // utils
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, ChangeEvent } from 'react'
 import useCart from '../../store/contexts/cart/CartContext'
 import { Product } from '../../mocks/products'
 import { formatPrice } from '../../utils/format'
+import { fetchAddressData } from '../../utils/fetchAddressData'
+import useSWR from 'swr'
+import { formatOrderPrices } from '../../utils/formatOrderPrices'
 interface AddressViaApi {
   bairro: string
   cep: string
@@ -50,28 +53,17 @@ interface AddressViaApi {
 export function Checkout() {
   const { productsList, removeFromCart, getCheckoutData } = useCart()
 
-  const [postalCode, setPostalCode] = useState<string>('')
-  const [addressNumber, setAddressNumber] = useState<string>('')
-  const [installmentSelected, setInstallmentSelected] = useState('')
-  const [addressViaApi, setAddresViaApi] = useState<AddressViaApi>({
-    bairro: '',
-    cep: '',
-    complemento: '',
-    ddd: '',
-    gia: '',
-    ibge: '',
-    localidade: '',
-    logradouro: '',
-    siafi: '',
-    uf: '',
+  const [formData, setFormData] = useState({
+    postalCode: '',
+    addressNumber: '',
   })
+  const { postalCode, addressNumber } = formData
 
-  // add animation on update product list
+  const [installmentSelected, setInstallmentSelected] = useState('')
+  const [addressViaApi, setAddresViaApi] = useState({} as AddressViaApi)
+
   const [parent] = useAutoAnimate<HTMLUListElement>()
   const navigate = useNavigate()
-
-  const itemQuantity = productsList.map(({ quantity }) => quantity)[0]
-  const [productQuantity, setProductQuantity] = useState(itemQuantity)
 
   const isSubmitButtonDisable =
     installmentSelected === '' ||
@@ -79,48 +71,29 @@ export function Checkout() {
     addressNumber === '' ||
     postalCode === ''
 
-  // manage delivery cost
-  const deliveryCost = productsList.length > 0 ? 3.5 : 0
+  const total = formatOrderPrices(productsList).formatedTotal || 0
+  const deliveryPrice = formatOrderPrices(productsList).formatedDeliveryCost
+  const totalWithDelivery =
+    formatOrderPrices(productsList).formatedTotalWithDelivery
 
-  // format prices
-  const totalItemsPrices = productsList
-    .map((product) => product.price * product.quantity)
-    .reduce((prev, curr) => prev + curr, 0)
-  const total = totalItemsPrices || 0
-  const formatedTotal = formatPrice(total)
-  const formatedDeliveryCost = formatPrice(deliveryCost)
-  const totalWithDelivery = total + deliveryCost
-  const formatedTotalWithDelivery = formatPrice(totalWithDelivery)
+  const handleFormData = (
+    prop: string,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    setFormData({ ...formData, [prop]: event.target.value })
+  }
 
-  // set address by postal code
+  const { data } = useSWR(postalCode, fetchAddressData)
   const postalCodeInputController = postalCode.length === 8 ? postalCode : null
 
-  const handlePostalCode = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const userInput = e.target.value
-    const userInputWithoutHifen = userInput.replace(/-/g, '')
-    setPostalCode(userInputWithoutHifen)
-  }
-
   useEffect(() => {
-    const VIA_CEP_ENDPOINT = `https://viacep.com.br/ws/${postalCode}/json/`
-
-    if (postalCode)
-      fetch(VIA_CEP_ENDPOINT)
-        .then((response) => response.json())
-        .then((json) => setAddresViaApi(json))
-        .catch((error) => console.log(error))
-  }, [postalCode, postalCodeInputController])
-
-  const handleItemQuantity = () => {
-    productsList.map((product) => setProductQuantity(product.quantity))
-  }
+    if (data) {
+      setAddresViaApi(data)
+    }
+  }, [data, postalCode, postalCodeInputController])
 
   const handleDeleteProduct = (product: Product): void => {
     removeFromCart(product)
-  }
-
-  const handleAddressNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddressNumber(e.target.value)
   }
 
   const handleInstallmentSelection = (selection: string) => {
@@ -144,7 +117,7 @@ export function Checkout() {
     <Container>
       <div className="left-blocks">
         <SubTitle>Complete seu pedido</SubTitle>
-        <CheckoutForm id="checkout-form">
+        <CheckoutForm>
           <BlockHeader>
             <MapPin size={22} color="#C47F17" />
             <div className="block-text">
@@ -164,7 +137,7 @@ export function Checkout() {
               required
               min={1}
               max={8}
-              onChange={(e) => handlePostalCode(e)}
+              onChange={(e) => handleFormData('postalCode', e)}
             />
             {addressViaApi.cep === '' && installmentSelected !== '' ? (
               <span className="error-message-postalcode">
@@ -191,7 +164,7 @@ export function Checkout() {
                 placeholder="Número"
                 required
                 min={1}
-                onChange={(e) => handleAddressNumber(e)}
+                onChange={(e) => handleFormData('addressNumber', e)}
                 value={addressNumber}
               />
               {addressNumber === '' && installmentSelected !== '' ? (
@@ -320,7 +293,6 @@ export function Checkout() {
                         <QuantityStepper
                           quantity={product.quantity}
                           productId={product.id}
-                          setQuantity={handleItemQuantity}
                         />
                         <RemoveButton
                           onClick={() => handleDeleteProduct(product)}
@@ -345,25 +317,23 @@ export function Checkout() {
                   Total de itens
                 </p>
                 <span className="billing-items-value billing-value">
-                  R$ {formatedTotal}
+                  R$ {total}
                 </span>
               </li>
               <li>
                 <p className="billing-delivery-title billing-title">Entrega</p>
                 <span className="billing-delivery-value billing-value">
-                  R$ {formatedDeliveryCost}
+                  R$ {deliveryPrice}
                 </span>
               </li>
               <li>
                 <p className="billing-total-title">Total</p>
                 <span className="billing-total-value">
-                  R$ {formatedTotalWithDelivery}
+                  R$ {totalWithDelivery}
                 </span>
               </li>
             </ul>
             <PlaceOrderButton
-              type="submit"
-              form="checkout-form"
               disabled={isSubmitButtonDisable}
               onClick={handleCheckout}
             >

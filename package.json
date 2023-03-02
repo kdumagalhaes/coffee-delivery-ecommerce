@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint src --ext .ts,.tsx --fix",
-     "test": "vitest"
+    "test": "vitest"
   },
   "dependencies": {
     "@formkit/auto-animate": "^1.0.0-beta.3",
@@ -19,7 +19,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-toastify": "^9.0.8",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "swr": "^2.0.3"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^1.1.3",
